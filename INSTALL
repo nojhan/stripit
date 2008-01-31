@@ -1,0 +1,13 @@
+Configuration nécessaire:
+* serveur web avec support PHP
+
+Installation:
+* copier les fichiers dans le répertoire souhaité
+* éditez le fichier configuration.php
+* donnez les droits en écritures pour tous au répertoire "cache/"
+
+Utilisation:
+* Chaque strip est représenté par un fichier SVG et son export en PNG.
+* Pour un bon fonctionnement (affichage du titre, date, commentaires, etc.) chaque fichier SVG doit contenir des métadonnées au format RDF (dans Inkscape, Fichier > métadonnées).
+* Déposez ces deux fichiers dans le répertoire "strips/"
+

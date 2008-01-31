@@ -1,0 +1,23 @@
+-- Français -------------------------------------------------------------------------------------------------------------
+
+1. Installation
+
+* copiez les fichiers dans le répertoire de votre choix sur le serveur
+* éditez le fichier 'configuration.php' avec les valeurs de votre choix
+
+Attention, StripIt n'est testé que sur des fichiers SVG produits par le logiciel Inkscape. Il est très probable que les
+SVG issues d'autres logiciels ou de convertisseurs ne produisent pas les effets escomptés.
+
+
+2. Utilisation
+
+Vous devez télécharger à la fois les fichiers SVG et leur pendant PNG dans le répertoire 'strips/'.
+En effet, Strip-It ne convertit pas les fichiers SVG en PNG à la volée. Les fichiers doivent évidemment avoir
+le même nom, à l'extension près.
+
+Strip-It extrait les informations à afficher de chaque fichier SVG. Ceux-ci doivent donc contenir des
+méta-données au format RDF. Le logiciel Inkscape propose d'éditer ces données via le menu "Fichier > méta-données".
+
+Strip-It créer une page pour chaque fichier SVG présent, et les trie alphabétiquement sur leur nom. Pensez-donc à nommer
+les fichiers de manière adéquate.
+

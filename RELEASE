@@ -1,0 +1,17 @@
+SVN :
+
+Version 0.3 :
+* texte du SVG dans l'élément ALT de la balise image
+* flux RSS en version 2
+* bugfix RSS texte traduit absent
+* favicon
+* titre du strip dans le titre du HTML
+
+Version 0.2 :
+* xhtml valide, rss amélioré
+* support des descriptions RDF
+* fichier de configuration à part avec les infos générales
+* plus d'infos dans un bloc de bas de page
+
+Version 0.1 :
+* première version
