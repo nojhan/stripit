@@ -18,7 +18,7 @@ class configuration
 	/**
 	* URL of the website
 	*/
-	var $url = 'http://www.nojhan.net/geekscottes';
+	var $url = 'http://localhost/~nojhan/stripit/trunk';
 	
 	/**
 	* Title of the website

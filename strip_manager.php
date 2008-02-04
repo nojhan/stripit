@@ -241,7 +241,6 @@ class strip_manager
 	* @param integer index of the file to parse in the {@link $strips_list}
 	*/
 	function strip_info_get( $element_asked ) {
-
 		$this->current_id = $element_asked;
 
 		$file = $this->strips_list[$element_asked];
