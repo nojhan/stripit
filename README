@@ -3,6 +3,7 @@
 1. Installation
 
 * copiez les fichiers dans le répertoire de votre choix sur le serveur
+* renommez le fichier 'configuration-dist.php' en 'configuration.php'
 * éditez le fichier 'configuration.php' avec les valeurs de votre choix
 
 Attention, StripIt n'est testé que sur des fichiers SVG produits par le logiciel Inkscape. Il est très probable que les

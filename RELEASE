@@ -1,4 +1,6 @@
 SVN :
+* entrées du flux RSS en ordre inverse, permet une lecture plus agréable sous les aggrégateurs ne triant pas sur la date (FireFox, par exemple)
+* fichier de configuration anonymisé
 
 Version 0.3 :
 * texte du SVG dans l'élément ALT de la balise image
