@@ -1,4 +1,7 @@
 SVN :
+* script d'aide à l'export PNG et au téléchargement :
+	* ajout des métadonnées SVG lors de l'export
+	* configurable via la ligne de commande ou un fichier ~/.stripit.conf
 * entrées du flux RSS en ordre inverse, permet une lecture plus agréable sous les aggrégateurs ne triant pas sur la date (FireFox, par exemple)
 * fichier de configuration anonymisé
 
