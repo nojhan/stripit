@@ -7,19 +7,57 @@ import ftplib
 import getopt
 from elementtree import ElementTree
 import unicodedata
+import ConfigParser
 
 class Options:
 
-	def __init__(self, argv, usage = "" ):
-
-		# Message à afficher en cas de mauvaise utilisation des options
-		self.usage = usage
-
+	def __init__(self, argv, usage = "", app_name = None ):
 		self.options = {}
 		self.argv = argv
 
-	def parse(self):
+		if app_name:
+			self.app_name = app_name
+		else:
+			# si aucun nom n'est précisé, on l'extrait de l'argv, mais sans l'extension
+			self.app_name = os.path.splitext( os.path.basename( argv[0] ) )[0]
 
+
+		# Message à afficher en cas de mauvaise utilisation des options
+		usage += "\nUsage: %s [OPTIONS] arguments" % self.app_name
+		self.usage = usage
+
+
+	def __configure_file( self, filename ):
+		# prend les valeurs indiquées dans le fichier de configuration
+		config = ConfigParser.ConfigParser()
+
+		try:
+			config.readfp( open( filename )  )
+		except:
+			return
+
+		# Pour chaque option prévue
+		for o in self.options:
+			try:
+				# essaye de la lire dans le fichier de conf
+				a = config.get('default',o)
+				
+				# si c'est un flag
+				if self.options[o]['flag'] == True:
+					# il faut convertir en booléen
+					self.options[o]['value'] = bool( eval( a ) )
+				else:
+					# sinon c'est un string
+					self.options[o]['value'] = a
+	
+				# on ajoute que ce fichier de conf à changer la valeur
+				self.options[o]['origin'] = filename
+
+			except:
+				pass
+
+
+	def __configure_command( self ):
 		# construction de la chaine argument pour getopt
 		gos_short = ''
 		gos_long = ''
@@ -44,13 +82,13 @@ class Options:
 			self.print_usage()
 			sys.exit(2)
 			
-		# création des dicionnaires pour les valeurs
-		self.param = {}
-		self.is_flag = {}
 		s2l = {} # associations court:long
 		for o in self.options:
+			short = self.options[o]['short']
+			# lève une erreur si l'option courte a déjà été déclarée
+			if short in s2l:
+				raise "Short option '%s' already declared for the options '%s', please use another letter for the option '%s'." % (short, s2l[short], o )
 			s2l[ self.options[o]['short'] ] = self.options[o]['long']
-
 
 		# prend les valeurs indiquées sur la ligne de commande
 		for o,a in opts:
@@ -68,14 +106,29 @@ class Options:
 				else:
 					# prend la valeur indiquée
 					self.options[ s2l[os] ]['value'] = a
+				self.options[ s2l[os] ]['origin'] = 'command line'
 			# si c'est une option longue
 			elif ol in self.options:
 				if self.options[ol]['flag']:
 					self.options[ ol ]['value'] = True
 				else:
 					self.options[ol]['value'] = a
+				self.options[ol]['origin'] = 'command line'
 
 		# retourne tout ce qui n'a pas été parsé
+		return args
+
+
+	def parse(self):
+		# on essaye d'abord le fichier de conf général
+		self.__configure_file( '%s.conf' % self.app_name )
+	
+		# puis on essaye le fichier de conf utilisateur
+		self.__configure_file( os.path.join( os.path.expanduser('~'), '.%s.conf' % self.app_name ) )
+
+		# enfin, la ligne de commande
+		args = self.__configure_command()
+
 		return args
 
 
@@ -83,19 +136,34 @@ class Options:
 		flag = False
 		if default==True or default==False:
 			flag = True
-		self.options [ long ] = { 'short':short, 'long':long, 'description':description, 'default':default, 'flag':flag, 'value':default }
+
+		# si l'option est déjà présente
+		if long in self.options:
+			raise "Long option '%s' already declared, please use another one." % long
+		else:
+			self.options [ long ] = { 
+				'short':short,	# identifiant court (une lettre)
+				'long':long,	# identifiant long
+				'description':description,	# texte de description
+				'origin':'hard coded',	# source de la valeur
+				'flag':flag,		# indicateur de flag
+				'value':default }	# valeur de l'option
 	
 
 	def print_usage(self):
 		print self.usage
 		
 	        for o in self.options:
-	                print "\t-%s, --%s\t%s." % ( self.options[o]['short'], self.options[o]['long'], self.options[o]['description'] )
+			fs = "\t-%s, --%s\t\t%s"
+			# si pas un flag, indique qu'il faut un paramètre
+			if not self.options[o]['flag']:
+				fs = "\t-%s, --%s\t=VAL\t%s"
+	                print fs % ( self.options[o]['short'], self.options[o]['long'], self.options[o]['description'] )
 
 	def print_state(self):
 		print "Options settings:"
 		for o in self.options:	
-	                print "\t%s=%s (%s)" % ( self.options[o]['long'], self.options[o]['value'], self.options[o]['default'] )
+	                print "\t%s='%s' (%s)" % ( self.options[o]['long'], self.options[o]['value'], self.options[o]['origin'] )
 
 	def get( self, long ):
 		return self.options[long]['value']
@@ -144,7 +212,7 @@ class Stripit:
 		im.save(file, "PNG", pnginfo=meta)
 
 
-	def export( self, file_we, max_size=None, options='' ):
+	def export( self, file_we, options='', max_size=None ):
 		"""file name only, without extension"""
 
 		if self.verbose:
@@ -196,6 +264,29 @@ class Stripit:
 		return unicodedata.normalize('NFKD', res ).encode('ASCII', 'ignore')	
 	
 
+	def xfind_attribute( self, tree, ns ):
+		# pour une raison qui m'échappe, ElementTree ne considère pas les attributs comme des sous-éléments de chaque noeud
+		# cette fonction est donc un hack pour pallier le problème
+
+		# les premiers éléments sont considérés comme des noeuds de la requête xpath
+		q = '//' + '/'.join( ns[0:-1] )
+		# le dernier est l'attribut
+		attribute = ns[-1]
+
+		# on récupère l'objet élément
+		el = tree.find( q)
+		
+		# les attributs sont récupérables dans une liste de tuples (!)
+		# on convertit donc en dictionnaire, plus logique
+		# TODO vérifier (quand même) s'il ne peut pas y avoir plusieurs attributs identiques
+		attr = dict( el.items() )
+
+		# ce qui permet de récupérer le contenu directement avec l'identifiant
+		res = unicode( attr[attribute] )
+
+		return unicodedata.normalize('NFKD', res ).encode('ASCII', 'ignore')
+
+
 	def get_svg_metadata( self, file_we ):
 
 		if self.verbose:
@@ -228,7 +319,9 @@ class Stripit:
 		metadata = {}
 		metadata['Author']	= self.xfind( tree, [ CC('Agent'),  DC('title') ] )
 		metadata['Description']	= self.xfind( tree, [ CC('Work'), DC('description') ])
-		metadata['Copyright']	= self.xfind( tree, [ CC('Work'), CC('license') ] ) # FIXME ne marche pas
+		
+		metadata['Copyright']	= self.xfind_attribute( tree, [ CC('Work'),CC('license'),RDF('resource') ] )
+		
 		metadata['Creation Time'] = self.xfind( tree, [ CC('Work'), DC('date') ] )
 		metadata['Software'] 	= 'www.inkscape.org / stripit.sourceforge.net' # FIXME pas très élégant
 		metadata['Disclaimer']	=''
@@ -236,7 +329,7 @@ class Stripit:
 		metadata['Source']	= self.xfind( tree, [ CC('Work'), DC('source') ])
 		lang = self.xfind( tree, [ CC('Work'), DC('language') ])
 		metadata['Comment']	= 'Language: %s' % lang
-
+		
 		if self.verbose:
 			print '\t\t\tok'
 		return metadata
@@ -288,9 +381,9 @@ class Stripit:
 
 if __name__=="__main__":
 
-	usage = """Script d'aide à l'export et au téléchargement pour StripIt.
-\tCe script va exporter un fichier SVG au format PNG, puis télécharger le tout sur un serveur FTP.
-Usage: stripit.py [OPTIONS] fichier"""
+	usage = """Aide à l'export et au téléchargement pour StripIt.
+\tCe script va exporter un ou plusieurs fichiers SVG au format PNG, en préservant les métadonnées ;
+\tpuis télécharger le tout sur un serveur FTP."""
 
 	oo = Options( sys.argv, usage )
 
@@ -304,10 +397,13 @@ Usage: stripit.py [OPTIONS] fichier"""
 	oo.add(	'v',	'verbose',	"Afficher plus d'informations",	False )
 	oo.add( 's',	'supp',		'Options supplémentaires pour inkscape', '' )
 	oo.add( 'h',	'help',		"Ce message d'aide",		False )
-	oo.add(	'm',	'max-size',	'Taille maximale en hauteur ou en largeur, en pixels',	'800' )
+	oo.add(	'z',	'size',		"Limiter la taille du PNG",	False )
+	oo.add(	'm',	'max-size',	'Taille maximale en hauteur ou en largeur, en pixels',	'800')
 
 	args = oo.parse()
-	#oo.print_state()
+
+	if oo.get('verbose'):
+		oo.print_state()
 	
 	if oo.get('help'):
 		oo.print_usage()
@@ -326,7 +422,10 @@ Usage: stripit.py [OPTIONS] fichier"""
 		si = Stripit( oo.get('verbose') )
 		
 		if not oo.get('no-export'):
-			si.export( f, oo.get('max-size'), oo.get('supp') )
+			if oo.get('size'):
+				si.export( f, oo.get('supp'), oo.get('max-size') )
+			else:
+				si.export( f, options=oo.get('supp') )
 	
 		md = si.get_svg_metadata( f )
 	
@@ -339,5 +438,5 @@ Usage: stripit.py [OPTIONS] fichier"""
 				oo.get('user'), 
 				oo.get('dir'), 
 				oo.get('pass')
-			 ) # FIXME options ou .conf ?
+			 )
 
