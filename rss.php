@@ -52,8 +52,17 @@ class rss_manager
 		$this->lang = $sm->lang;	
 	
 		$sm->strips_list_get();
+		
+		// limit the number of strip in RSS
+		$limit = 0;
+		if (isset($_GET['limit']) && is_numeric($_GET['limit'])) {
+			// check for have no infinite for
+			if ($_GET['limit'] > 0 && $_GET['limit'] < $sm->strips_count) {
+				$limit = $sm->strips_count - $_GET['limit'];
+			}
+		}
 
-		for( $i = $sm->strips_count-1; $i >= 0;  $i-- ) { // reverser order
+		for( $i = $sm->strips_count-1; $i >= $limit;  $i-- ) { // reverser order
 			$sm->strip_info_get( $i );
 			
 			// conversion iso8601 -> RFC822
