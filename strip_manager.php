@@ -293,7 +293,7 @@ class strip_manager
 		$element_asked = -1;
 
 		// If one ask for a particular strip
-		if( !isset($_GET['strip']) || empty($_GET['strip'])) {
+		if( !isset($_GET['strip']) || $_GET['strip'] == '' || !is_numeric($_GET['strip']) ) {
 			$element_asked = $this->strips_count-1;
 
 		} else {
