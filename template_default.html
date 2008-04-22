@@ -44,7 +44,7 @@
 	<div id="infobar" class="content">
 		<div id="title">&laquo;&nbsp;{title}&nbsp;&raquo;</div>
         <div id="infos">
-            <p id="description">{description}</p>
+            <p id="description">{description:h}</p>
             <p id="author">&copy; {author} : {date} : <a href="{source}">{lang.source}</a></p>
             <p id="license">{lang.licence} : <a href="{license}">{license}</a></p>
 		</div>
@@ -56,6 +56,7 @@
 
 <div id="footbar">
     <p id="forum"><a href="{general.forum}">{lang.forum}</a></p>
+    <p id="forum_comments">{comments:h}</p>
     <p id="shop_infos"><a href="{general.shop}">{lang.boutique} {general.title}</a> {lang.teeshirt}.</p>
     {lang.see_also}
     <ul id="linkbar">
