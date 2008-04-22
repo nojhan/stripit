@@ -53,6 +53,16 @@ class configuration
 	var $forum = 'http://perdu.com';
 
 	/**
+	* Use PunBB integration ?
+	*/
+	var $use_punbb = false;
+
+	/**
+	* PunBB's forum ID to use for strips comment
+	*/
+	var $punbb_forum_id = '1';
+
+	/**
 	* Additional URL
 	*/
 	var $see_also = array(

@@ -132,6 +132,11 @@ class strip_manager
 	var $current_id = 0;
 
 	/**
+	* Comments associated to a strip
+	*/
+	var $comments = '';
+
+	/**
 	* Additional variables
 	*
 	* These ones are passed to the template engine.
@@ -273,12 +278,23 @@ class strip_manager
 
 			// Description
 			preg_match_all('/<dc:description>(.*?)<\/dc:description>/is', $data, $matches);
-			//$this->description = str_replace( "\n", '<br/>', html_entity_decode( $matches[1][0] ) );
-			$this->description = html_entity_decode( $matches[1][0] );
+			$this->description = str_replace( "\n", '<br/>', html_entity_decode( $matches[1][0] ) );
+			//$this->description = html_entity_decode( $matches[1][0] );
 
 			// All the texts inside the SVG
 			preg_match_all('/">(.*?)<\/tspan>/i',$data,$matches);
 			$this->text = html_entity_decode( implode( $matches[1], "\n" ) );
+		}
+
+		if( $this->general->use_punbb ) {
+			// TODO : url en fonction du mod punbb
+			$fh = fopen($this->general->forum . '/post.php?ttitle=TODO&fid=TODO', 'r');
+			if (!$fh) {
+				$this->comments = "Impossible de lire les commentaires.";
+			} else {
+				$this->comments = stream_get_contents($fh);
+				fclose($fh);
+			}
 		}
 	}
 
