@@ -16,7 +16,9 @@ class language
 	var $source_rss = "Click on the image for the source file in the SVG format.";
 	var $see_also	= "See also:";
 	var $forum	="Forum";
-	
+        var $forum_new  = "New";
+        var $forum_error = "Cannot read comments";
+        	
 	function language()
 	{
 		$vars = get_class_vars(__CLASS__);

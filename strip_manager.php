@@ -137,6 +137,11 @@ class strip_manager
 	var $comments = '';
 
 	/**
+	* Link to the post page related to the strip on the forum
+	*/
+	var $forum_post_url = '';
+
+	/**
 	* Additional variables
 	*
 	* These ones are passed to the template engine.
@@ -286,15 +291,21 @@ class strip_manager
 			$this->text = html_entity_decode( implode( $matches[1], "\n" ) );
 		}
 
+		// if one want to use punbb as forum
 		if( $this->general->use_punbb ) {
-			// TODO : url en fonction du mod punbb
-			$fh = fopen($this->general->forum . '/post.php?ttitle=TODO&fid=TODO', 'r');
+			// lasts posts associated to the strip
+			$fh = fopen( $this->general->forum.'/extern.php?action=new&fid=1', 'r');
+
 			if (!$fh) {
-				$this->comments = "Impossible de lire les commentaires.";
+				// TODO traduction
+				$this->comments = $this->lang-forum_error;
 			} else {
 				$this->comments = stream_get_contents($fh);
 				fclose($fh);
 			}
+	
+			// link for posting a new comment
+			$this->forum_post_url = $this->general->forum . '/post.php?ttitle='.$this->title.'&fid='.$this->general->punbb_forum_id;
 		}
 	}
 

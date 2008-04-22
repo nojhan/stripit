@@ -16,6 +16,8 @@ class language
 	var $source_rss = "Cliquez sur l'image pour le fichier source au format SVG.";
 	var $see_also	= "Voir aussi :";
 	var $forum	= "Forum";
+	var $forum_new	= "Nouveau";
+	var $forum_error = "Impossible de lire les commentaires";
 	
 	function language()
 	{
