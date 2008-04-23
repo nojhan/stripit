@@ -1,0 +1,90 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" lang="fr">
+
+<head>
+
+	<title>{general.title} - {title}</title>
+
+	<meta http-equiv="Content-Type" content="text/HTML; charset=utf-8"  />
+	<meta name=" robot" content="follow, index, all" />
+	<link rel="alternate" type="application/rss+xml" title="RSS" href="rss.php" />
+	<link rel="stylesheet" type="text/css" href="style_lego.css" />
+
+</head>
+
+<body>
+
+<div id="head">
+	<span id="title_block" class="head_block">
+		<h1 id="site_title">{general.title}</h1>
+		<p id="site_desc">{general.description}</p>
+	</span>
+	<span id="site_block" class="head_block">
+		<ul id="site_map">
+			<li><a href="..">{lang.accueil}</a></li>
+			<li><a href="{general.forum}">{lang.forum}</a></li>
+			<li><a href="{geenral.shop}">{lang.boutique}</a></li>
+			<li><a href="mailto:{general.email}">{general.webmaster}</a></li>
+		</ul>
+	</span>
+	<span id="feed_block" class="head_block">
+		<a id="feed" href="rss.php">{lang.rss}</a>
+		<a id="feed" href="rss.php?limit=10">10</a>
+	</span>
+</div>
+
+<div id="nav_block">
+	<ul id="nav_bar">
+		<li><a id="navfirst" href="{nav_first}">{lang.premier}</a></li>
+		<li><a id="navprev" href="{nav_prev}">{lang.precedent}</a></li>
+		<li><a id="navnext" href="{nav_next}">{lang.suivant}</a></li>
+		<li><a id="navlast" href="{nav_last}">{lang.dernier}</a></li>
+	</ul>
+</div>
+
+<div id="strip_block">
+	<img id="strip" class="content" src="{img_src}" alt="{text}" />
+
+	<div id="meta_block">
+		<div id="info_block" class="sub_block">
+			<h2 id="title">&laquo;&nbsp;{title}&nbsp;&raquo;</h2>
+			<p id="description">{description:h}</p>
+		</div>
+	
+		<div id="info_plus_block" class="sub_block">
+			<p id="author">&copy; {author}</p>
+			<p id="date">{date}</p>
+			<p id="source"><a href="{source}">{lang.source}</a></p>
+			<p id="license">{lang.licence} : <a href="{license}">{license}</a></p>
+		</div>	
+	</div>
+
+	<div id="comments_block" class="sub_block">
+		{lang.comments} :
+		<ul id="comments">
+			{comments:h}
+		</ul>
+		<a href="{forum_post_url}">{lang.forum_new}</a>
+	</div>
+
+	<div class="spacer">&nbsp;</div>
+</div>
+
+<div class="spacer">&nbsp;</div>
+
+<div id="foot">
+	<p>{lang.see_also}
+		<ul id="link_bar">
+		{foreach:general.see_also,name,url}
+			<li><a href="{url}">{name}</a></li>
+		{end:}
+		</ul>
+	</p>
+	<p>{lang.propulse} <a href="http://stripit.sourceforge.net/">Strip-It</a>, {lang.descstrip} ({general.version}).</p>
+</div>
+
+</body>
+
+
+</html>
