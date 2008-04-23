@@ -21,7 +21,7 @@
 <div id="navbar">
 	<div id="site_title"><p id="site_head">{general.title}</p><p id="site_desc">{general.description}</p></div>
 
-	<div id="main"><a href="..">{lang.accueil}</a> <br/> <a id="feed" href="rss.php">{lang.rss}</a> <br/><a href="mailto:{general.email}">{general.webmaster}</a></div>
+	<div id="main"><a href="..">{lang.accueil}</a> <br/> <a id="feed" href="rss.php">{lang.rss}</a> <a id="feed" href="rss.php?limit=10">10</a> <br/><a href="mailto:{general.email}">{general.webmaster}</a></div>
 	<a id="navfirst" href="{nav_first}">{lang.premier}</a>
 	<a id="navprev" href="{nav_prev}">{lang.precedent}</a>
 	<a id="navnext" href="{nav_next}">{lang.suivant}</a>
@@ -65,7 +65,7 @@
             <li><a href="{url}">{name}</a></li>
         {end:}
     </ul>
-    <p>{lang.propulse} <a href="http://stripit.sourceforge.net/">Strip-It</a>, {lang.descstrip}.</p>
+    <p>{lang.propulse} <a href="http://stripit.sourceforge.net/">Strip-It</a>, {lang.descstrip} ({general.version}).</p>
 </div>
 
 </body>

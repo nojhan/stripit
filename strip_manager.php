@@ -294,7 +294,7 @@ class strip_manager
 		// if one want to use punbb as forum
 		if( $this->general->use_punbb ) {
 			// lasts posts associated to the strip
-			$fh = fopen( $this->general->forum.'/extern.php?action=new&fid=1', 'r');
+			$fh = fopen( $this->general->forum.'/extern.php?action=topic&tid=1', 'r');
 
 			if (!$fh) {
 				// TODO traduction
