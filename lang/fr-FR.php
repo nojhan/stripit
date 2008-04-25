@@ -6,6 +6,7 @@ class language
 	var $premier	= "Premier";
 	var $dernier	= "Dernier";
 	var $accueil	= "Accueil";
+	var $contact	= "Contact";
 	var $rss	= "RSS";
 	var $licence	= "Licence";
 	var $boutique	= "Boutique";
@@ -18,6 +19,8 @@ class language
 	var $forum	= "Forum";
 	var $forum_new	= "Nouveau";
 	var $forum_error = "Impossible de lire les commentaires";
+	var $comments = "Commentaires";
+	var $wotd = "Dernier message du webmaster";
 	
 	function language()
 	{

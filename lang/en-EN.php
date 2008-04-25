@@ -6,6 +6,7 @@ class language
 	var $premier	= "First";
 	var $dernier	= "Last";
 	var $accueil	= "Index";
+	var $contact	= "Contact";
 	var $rss	= "RSS";
 	var $licence	= "License";
 	var $boutique	= "Shop";
@@ -16,8 +17,10 @@ class language
 	var $source_rss = "Click on the image for the source file in the SVG format.";
 	var $see_also	= "See also:";
 	var $forum	="Forum";
-        var $forum_new  = "New";
-        var $forum_error = "Cannot read comments";
+	var $forum_new  = "New";
+	var $forum_error = "Cannot read comments";
+	var $comments = "Comments";
+	var $wotd = "Word of the day";
         	
 	function language()
 	{

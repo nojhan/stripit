@@ -306,6 +306,7 @@ class strip_manager
 	
 			// link for posting a new comment
 			$this->forum_post_url = $this->general->forum . '/post.php?ttitle='.$this->title.'&fid='.$this->general->punbb_forum_id;
+			
 		}
 	}
 
@@ -341,6 +342,20 @@ class strip_manager
 		$this->nav_next = $this->nav_base_url.($element_asked+1).$this->nav_lang_url;
 		$this->nav_last = $this->nav_base_url.($this->strips_count-1).$this->nav_lang_url;
 		$this->nav_first = $this->nav_base_url."0".$this->nav_lang_url;
+
+		
+		// if one want to use punbb as forum
+		if( $this->general->use_punbb ) {
+			// get the word of the day
+			$fh = fopen( $this->general->forum.'/extern.php?action=new&show=1&fid='.$this->general->punbb_wotd_id, 'r');
+
+			if (!$fh) {
+				$this->general->wotd = $this->lang-forum_error;
+			} else {
+				$this->general->wotd = stream_get_contents($fh);
+				fclose($fh);
+			}
+		}
 
 		$this->strip_info_get( $element_asked );
 	}

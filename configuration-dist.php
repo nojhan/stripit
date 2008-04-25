@@ -67,6 +67,11 @@ class configuration
 	var $punbb_forum_id = '1';
 
 	/**
+	* PunBB's forum ID to use for word of the day
+	*/
+	var $punbb_wotd_id = '1';
+
+	/**
 	* Additional URL
 	*/
 	var $see_also = array(
