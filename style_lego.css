@@ -37,7 +37,7 @@ a:hover {
 
 #title_block {
 	width:60%;
-	background-image:url("gradient_blue.png");
+	background-image:url("design/gradient_blue.png");
 	background-color:#5276dd;
 }
 
@@ -45,7 +45,7 @@ a:hover {
 	text-align:center;
 	width:15%;
 	background-color:#9652dd;
-	background-image:url("gradient_purple.png");
+	background-image:url("design/gradient_purple.png");
 	background-color:#9052dd;
 	vertical-align:middle;
 }
@@ -76,12 +76,12 @@ ul#site_map {
 #feed_block {
 	text-align:center;
 	width:15%;
-	background-image:url("gradient_orange.png");
+	background-image:url("design/gradient_orange.png");
 	background-color:#ff8400;
 }
 
 #feed_list {
-	background-image:url("rss_big.png");
+	background-image:url("design/rss_big.png");
 	background-repeat:no-repeat;
 	background-position:right bottom;
 	padding-right:95px;
@@ -106,20 +106,31 @@ h1#site_title {
 
 /* NAV */
 
-ul#nav_bar {
+ul.nav_bar {
 	list-style:none;
 	text-align:center;
-	padding-top:150px;
+	padding-top:170px;
 	margin-bottom:10px;
 }
 
-ul#nav_bar>li {
+ul.nav_bar>li {
 	display:inline;
 	margin-left:5px;
 	margin-bottom:0px;
 	
 	padding:10px;
-	background-image:url("gradient_gray.png");
+	background-image:url("design/gradient_gray_small_2.png");
+	background-position:bottom;
+}
+
+#nav_bottom {
+	margin:0px;
+	margin-top:10px;
+	padding:0px;
+}
+
+ul#nav_bottom>li {
+	background-image:url("design/gradient_gray_small.png");
 	background-position:top;
 }
 
@@ -140,6 +151,8 @@ ul#nav_bar>li {
 img#strip {
 	border:thin solid black;
 	background-color:white;
+	margin-top:1em;
+	margin-bottom:1em;
 }
 
 .sub_block {
@@ -173,7 +186,7 @@ img#strip {
 /* FOOT */
 
 #foot {
-	background-image:url("gradient_gray.png");
+	background-image:url("design/gradient_gray.png");
 	background-color:black;
 	background-position:bottom;
 	color:white;
