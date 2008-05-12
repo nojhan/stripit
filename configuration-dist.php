@@ -87,6 +87,11 @@ class configuration
 	* HTML template to use
 	*/
 	var $template_html = 'template_default.html';
+
+	/**
+	* Number of thumbnails per gallery page
+	*/
+	var $thumbs_per_page = 5;
 }
 
 ?>

@@ -252,6 +252,19 @@ class Stripit:
 		if self.verbose:
 			print '\tok'
 
+		# generation de la miniature pour la galerie
+		if self.verbose:
+			print '\tCreating the thumbnail PNG from the SVG...',
+			sys.stdout.flush()
+
+		cmd = 'inkscape -z --export-width=345 --export-png %s.thumb.png %s.svg ' % (file_we,file_we)
+		cmd += options
+
+		os.popen( cmd )
+
+		if self.verbose:
+			print '\tok'
+
 	
 	def xfind( self, tree, ns ):
 		# on ne veut passer qu'un liste d'élements

@@ -1,0 +1,58 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" lang="fr">
+
+<head>
+
+	<title>{general.title} - {title}</title>
+
+	<meta http-equiv="Content-Type" content="text/HTML; charset=utf-8"  />
+	<meta name=" robot" content="follow, index, all" />
+	<link rel="alternate" type="application/rss+xml" title="RSS" href="rss.php" />
+	<link rel="stylesheet" type="text/css" href="style_default.css" />
+
+</head>
+
+
+
+<body>
+
+<div class="shadow_simple">
+<div id="navbar">
+	<div id="site_title"><p id="site_head">{general.title}</p><p id="site_desc">{general.description}</p></div>
+
+	<div id="main"><a href="..">{lang.accueil}</a> <br/> <a id="feed" href="rss.php">{lang.rss}</a> <a id="feed" href="rss.php?limit=10">10</a> <br/><a href="mailto:{general.email}">{general.webmaster}</a></div>
+	<a id="navfirst" href="{nav_first}">{lang.premier}</a>
+	<a id="navprev" href="{nav_prev}">{lang.precedent}</a>
+	<a id="navnext" href="{nav_next}">{lang.suivant}</a>
+	<a id="navlast" href="{nav_last}">{lang.dernier}</a>
+
+</div>
+</div>
+
+{foreach:items_list,id,strip}
+	<div class="centering">
+	<div class="shadow">
+	<a href="{general.url}/{strip.nav_base_url}{strip.current_id}"><img class="stripbox" src="{general.url}/{strip.thumbnail}" style="width:345px;"/></a>
+	</div>
+	</div>
+{end:}
+
+<div id="footbar">
+    <p id="forum"><a href="{general.forum}">{lang.forum}</a></p>
+    <p id="forum_comments">{comments:h}</p>
+    <p id="forum_post"><a href="{forum_post_url}">{lang.forum_new}</a></p>
+    <p id="shop_infos"><a href="{general.shop}">{lang.boutique} {general.title}</a> {lang.teeshirt}.</p>
+    {lang.see_also}
+    <ul id="linkbar">
+        {foreach:general.see_also,name,url}
+            <li><a href="{url}">{name}</a></li>
+        {end:}
+    </ul>
+    <p>{lang.propulse} <a href="http://stripit.sourceforge.net/">Strip-It</a>, {lang.descstrip} ({general.version}).</p>
+</div>
+
+</body>
+
+
+</html>

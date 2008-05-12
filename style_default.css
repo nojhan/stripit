@@ -55,6 +55,11 @@ a:hover {
 	width:100%;
 }
 
+.stripbox {
+	border:1px solid black;
+	background-color:white;
+}
+
 #strip {
 	border:1px solid black;
 	background-color:white;

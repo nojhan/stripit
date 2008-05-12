@@ -80,6 +80,10 @@ class strip_manager
 	* URL of the displayed file
 	*/
 	var $img_src ='';
+	/** 
+	* URL of the thumbnail
+	*/
+	var $thumbnail ='';
 	/**
 	* Title
 	*/
@@ -260,6 +264,7 @@ class strip_manager
 		// change the extension for {@link $img_src}
 		$png = explode( '.', $file);
 		$this->img_src = $this->strips_path.'/'.$png[0].'.png';
+		$this->thumbnail = $this->strips_path.'/'.$png[0].'.thumb.png';
 
 		$this->source = $svg;
 		
