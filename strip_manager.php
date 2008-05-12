@@ -264,7 +264,7 @@ class strip_manager
 		// change the extension for {@link $img_src}
 		$png = explode( '.', $file);
 		$this->img_src = $this->strips_path.'/'.$png[0].'.png';
-		$this->thumbnail = $this->strips_path.'/'.$png[0].'.thumb.png';
+		$this->thumbnail = $this->strips_path.'/'.$png[0].'.png';
 
 		$this->source = $svg;
 		
