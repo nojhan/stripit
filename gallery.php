@@ -106,7 +106,7 @@ class gallery_manager
 	function generate() {
 		$sm = new strip_manager;
 		$output = new HTML_Template_Flexy($sm->options);
-		$output->compile('template_gallery_default.html');
+		$output->compile('gallery_'.$sm->general->template_html);
 		$output->outputObject($this,$this->items_list);
 	}
 }

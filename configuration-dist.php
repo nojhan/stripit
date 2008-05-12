@@ -92,6 +92,11 @@ class configuration
 	* Number of thumbnails per gallery page
 	*/
 	var $thumbs_per_page = 5;
+
+    /**
+    * Size of the thumbnails
+    */
+    var $thumb_size = "200px";
 }
 
 ?>

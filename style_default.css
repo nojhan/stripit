@@ -41,6 +41,7 @@ a:hover {
     border-bottom:thin solid black;
     margin-top:1em;
     padding-bottom:1em;
+    clear:left;
 }
 #title {
 	font-size:large;
@@ -58,6 +59,7 @@ a:hover {
 .stripbox {
 	border:1px solid black;
 	background-color:white;
+    float:left;
 }
 
 #strip {

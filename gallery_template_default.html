@@ -4,7 +4,7 @@
 
 <head>
 
-	<title>{general.title} - {title}</title>
+	<title>{general.title}</title>
 
 	<meta http-equiv="Content-Type" content="text/HTML; charset=utf-8"  />
 	<meta name=" robot" content="follow, index, all" />
@@ -21,7 +21,8 @@
 <div id="navbar">
 	<div id="site_title"><p id="site_head">{general.title}</p><p id="site_desc">{general.description}</p></div>
 
-	<div id="main"><a href="..">{lang.accueil}</a> <br/> <a id="feed" href="rss.php">{lang.rss}</a> <a id="feed" href="rss.php?limit=10">10</a> <br/><a href="mailto:{general.email}">{general.webmaster}</a></div>
+    <div id="main"><a href="..">{lang.accueil}</a> <br/> <a id="feed" href="rss.php">{lang.rss}</a> <a id="feed" href="rss.php?limit=10">10</a> <br/><a href="mailto:{general.email}">{general.webmaster}</a></div>
+
 	<a id="navfirst" href="{nav_first}">{lang.premier}</a>
 	<a id="navprev" href="{nav_prev}">{lang.precedent}</a>
 	<a id="navnext" href="{nav_next}">{lang.suivant}</a>
@@ -30,13 +31,19 @@
 </div>
 </div>
 
+<div class="centering">
 {foreach:items_list,id,strip}
-	<div class="centering">
 	<div class="shadow">
-	<a href="{general.url}/{strip.nav_base_url}{strip.current_id}"><img class="stripbox" src="{general.url}/{strip.thumbnail}" style="width:345px;"/></a>
+        <a href="{general.url}/{strip.nav_base_url}{strip.current_id}">
+            <img class="stripbox" 
+                 src="{general.url}/{strip.thumbnail}"
+                 title="{strip.title}" 
+                 style="width:{general.thumb_size};"
+            />
+         </a>
 	</div>
-	</div>
-{end:}
+    {end:}
+</div>
 
 <div id="footbar">
     <p id="forum"><a href="{general.forum}">{lang.forum}</a></p>
