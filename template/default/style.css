@@ -6,8 +6,8 @@ html {
 body {
 	background-color:#bebfc1;
 	text-align:center;
-    margin:0px;
-    padding:0px;
+	margin:0px;
+	padding:0px;
 }
 
 a {
@@ -30,18 +30,18 @@ a:hover {
 }
 
 #footbar {
-    color:white;
-    font-size:small;
-    text-align:center;
-    background-color:#1f6cd0;
-    background-image:url("design/gradient2.png");
-    background-position:bottom left;
-    background-repeat:repeat-x;
-    border-top:thin solid black;
-    border-bottom:thin solid black;
-    margin-top:1em;
-    padding-bottom:1em;
-    clear:left;
+	color:white;
+	font-size:small;
+	text-align:center;
+	background-color:#1f6cd0;
+	background-image:url("design/gradient2.png");
+	background-position:bottom left;
+	background-repeat:repeat-x;
+	border-top:thin solid black;
+	border-bottom:thin solid black;
+	margin-top:1em;
+	padding-bottom:1em;
+	clear:left;
 }
 #title {
 	font-size:large;
@@ -59,7 +59,7 @@ a:hover {
 .stripbox {
 	border:1px solid black;
 	background-color:white;
-    float:left;
+	float:left;
 }
 
 #strip {
@@ -194,13 +194,13 @@ a:hover {
 
 
 #linkbar {
-    display:inline;
+	display:inline;
 	margin-top:2em;
-    list-style:none;
+	list-style:none;
 }
 
 ul#linkbar li {
-    display:inline;
+	display:inline;
 }
 
 #main {
@@ -208,8 +208,8 @@ ul#linkbar li {
 }
 
 #shop_infos {
-    font-size:medium;
-    font-weight:bold;
+	font-size:medium;
+	font-weight:bold;
 }
 
 #forum {

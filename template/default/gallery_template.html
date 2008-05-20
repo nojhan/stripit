@@ -9,7 +9,7 @@
 	<meta http-equiv="Content-Type" content="text/HTML; charset=utf-8"  />
 	<meta name=" robot" content="follow, index, all" />
 	<link rel="alternate" type="application/rss+xml" title="RSS" href="rss.php" />
-	<link rel="stylesheet" type="text/css" href="style_default.css" />
+	<link rel="stylesheet" type="text/css" href="{general.template_folder}/{general.template_name}/style.css" />
 
 </head>
 
@@ -34,7 +34,7 @@
 <div class="centering">
 {foreach:items_list,id,strip}
 	<div class="shadow">
-        <a href="{general.url}/{strip.nav_base_url}{strip.current_id}">
+        <a href="{general.url}/{strip.nav_base_url}{strip.current_id}{strip.nav_lang_url}">
             <img class="stripbox" 
                  src="{general.url}/{strip.thumbnail}"
                  title="{strip.title}" 

@@ -1,4 +1,6 @@
 SVN :
+* ajout d'un système de cache
+* correction de bug au niveau des langues
 * ajout d'une vue en vignettes
 * possibilité d'ajouter des commentaires avec PunBB (http://www.punbb.org)
 * légères modifications du template

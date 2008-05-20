@@ -84,19 +84,39 @@ class configuration
 	var $shop = 'http://perdu.com';
 	
 	/**
-	* HTML template to use
-	*/
-	var $template_html = 'template_default.html';
+	 * Use cache feature?
+	 */
+	var $use_cache = true;
+	
+	/**
+	 * cache folder (in the template folder)
+	 */
+	var $cache_folder = 'cache';
+	
+	/**
+	 * HTML template folder
+	 */
+	var $template_folder = './template';
+	
+	/**
+	 * Name of HTML template
+	 */
+	var $template_name = 'default';
+	
+	/**
+	 * Name of RSS template
+	 */
+	var $template_rss = 'rss';
 
 	/**
 	* Number of thumbnails per gallery page
 	*/
 	var $thumbs_per_page = 5;
 
-    /**
-    * Size of the thumbnails
-    */
-    var $thumb_size = "200px";
+	/**
+	 * Size of the thumbnails
+	 */
+	var $thumb_size = "200px";
 }
 
 ?>

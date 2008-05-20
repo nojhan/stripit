@@ -12,7 +12,7 @@
 set_include_path(get_include_path() . PATH_SEPARATOR . getcwd());
 
 require_once 'HTML/Template/Flexy.php';
-require_once 'configuration.php';
+require_once 'conf/configuration.php';
 
 /**
 * Main manager
@@ -31,7 +31,7 @@ class strip_manager
 	* Directory where to find translations files
 	* @var string
 	*/
-	var $lang_path = "./lang";
+	var $lang_path = "./conf/lang";
 
 	/** 
 	* Base url for asking for strips
@@ -184,20 +184,24 @@ class strip_manager
 	* Constructor
 	*
 	* Load the {@link configuration}
+	*
+	* @access	public
 	*/
 	function strip_manager() {
 		$this->general = new configuration;
-		$this->language();
+		$this->_language();
 	}
 
 
 	/**
 	* Check the asked language and search for translation files
+	*
+	* @access	private
 	*/
-	function language() {
+	function _language() {
 		if (isset($_GET[$this->lang_base_key]) && !empty($_GET[$this->lang_base_key])) {
 			$lang = $_GET[$this->lang_base_key];
-			$this->nav_lang_url = $this->lang_base_key.$_GET[$this->lang_base_key];
+			$this->nav_lang_url = '&'.$this->lang_base_key.'='.$_GET[$this->lang_base_key];
 		} else {
 			$lang = $this->general->language;
 		}
@@ -205,16 +209,63 @@ class strip_manager
 		if (file_exists($this->lang_path.'/'.$lang.'.php')) {
 			require_once $this->lang_path.'/'.$lang.'.php';
 			$this->lang = new language;
+			$this->general->language = $lang;
 		}
 	}
 
 
 	/**
-	* Parse the file list and generate the output
-	*/
+	 * Parse the file list and generate the output
+	 *
+	 * @access public
+	 */
 	function generate() {
-		$this->start();
-		$this->output();
+		if ($this->general->use_cache) {
+			// use the cache system
+			include_once 'cache.class.php';
+			$cache = new STRIPIT_Cache();
+			if( !isset($_GET['strip']) || $_GET['strip'] == '' || !is_numeric($_GET['strip']) ) {
+				// we must give the last, so we must calculate the last strip :-(
+				$this->strips_list_get();
+				$get_strip = $this->strips_count-1;
+			} else {
+				$get_strip = $_GET['strip'];
+			}
+			
+			if ($get_strip < 0) { 
+				$get_strip = 0;
+			}
+			
+			$template_folder	= $this->general->template_folder.'/'.$this->general->template_name;
+			$strip_folder		= $this->strips_path;
+			$cache_folder		= $this->general->cache_folder;
+			$language		= $this->general->language;
+			if ($cache->init($get_strip, $template_folder, $strip_folder, $cache_folder, $language)) {
+				if ($cache->isInCache()) {
+					// the page is in cache, show cache
+					$cache->getCache();
+				} else {
+					// the cache must be re-generate
+					ob_start();
+					
+					$this->start();
+					$this->output();
+					
+					$cache_data = ob_get_contents();
+					ob_end_clean();
+					$cache->putInCache($cache_data);
+					$cache->getCache();
+				}
+			} else {
+				// error in the configuration cache, don't use the cache system
+				$this->start();
+				$this->output();
+			}
+		} else {
+			// don't use the cache system
+			$this->start();
+			$this->output();
+		}
 	}
 
 
@@ -222,8 +273,12 @@ class strip_manager
 	* Construct the file list
 	*
 	* Add SVG files in the {@link $strips_path} directory and sort them lexically.
+	* @access	public
 	*/
 	function strips_list_get() {
+		// init the array
+		$this->strips_list = array();
+		
 		// Open the given directory
 		$handle = opendir($this->strips_path);
 
@@ -253,6 +308,7 @@ class strip_manager
 	* Parse meta-data of a given SVG
 	*
 	* @param integer index of the file to parse in the {@link $strips_list}
+	* @access	public
 	*/
 	function strip_info_get( $element_asked ) {
 		$this->current_id = $element_asked;
@@ -318,6 +374,7 @@ class strip_manager
 
 	/**
 	* Launch {@link strips_list_get}, check the asked strip, construct naviguation menu, launch {@link strip_info_get} on it
+	* @access	public
 	*/
 	function start() {
 
@@ -368,10 +425,11 @@ class strip_manager
 
 	/**
 	* Generate the HTML output with the template engine
+	* @access	public
 	*/
 	function output() {
 		$output = new HTML_Template_Flexy($this->options);
-		$output->compile($this->general->template_html);
+		$output->compile($this->general->template_folder.'/'.$this->general->template_name.'/template.html');
 		$output->outputObject($this,$this->elements);
 	}
 }

@@ -12,7 +12,7 @@
 set_include_path(get_include_path() . PATH_SEPARATOR . getcwd());
 
 require_once 'strip_manager.php';
-require_once 'configuration.php';
+require_once 'conf/configuration.php';
 
 // hack for passing objects by values instead of reference under PHP5 (but not PHP4)
 // damn clone keyword !
@@ -37,7 +37,17 @@ class gallery_manager
 	*/
 	var $general;
 
+	/** 
+	* Base url for asking for strips in gallery
+	* @var string
+	*/
 	var $nav_base_url = "gallery.php?page=";
+	
+	/**
+	 * Strip manager object
+	 * @var	object
+	 */
+	var $strip_manager;
 
 	/**
 	* Constructor
@@ -46,14 +56,83 @@ class gallery_manager
 	*/
 	function gallery_manager() {
 
-		//$this->general = new configuration;
+		$this->strip_manager = new strip_manager();
 
-		$sm = new strip_manager();
-
-		$this->general = $sm->general;
-		$this->lang = $sm->lang;	
+		$this->general = $this->strip_manager->general;
+		$this->lang = $this->strip_manager->lang;	
 	
-		$sm->strips_list_get();
+	}
+
+	/**
+	* Generate the Gallery output with the template engine.
+	*
+	* @access	public
+	*/
+	function generate() {
+		if ($this->general->use_cache) {
+			// use the cache system
+			include_once 'cache.class.php';
+			$cache = new STRIPIT_Cache();
+			
+			// limit the number of strips in Gallery
+			$limit = $this->general->thumbs_per_page;
+			if (isset($_GET['limit']) && is_numeric($_GET['limit'])) {
+				$limit = $_GET['limit'];
+
+				if ($limit <= 0) {
+					$limit = $this->general->thumbs_per_page;
+				}
+			}
+			// the page to view
+			if( !isset($_GET['page']) || $_GET['page'] == '' || !is_numeric($_GET['page']) ) {
+				$page = 0;
+			} else {
+				$page = $_GET['page'];
+
+				if ($page < 0) {
+					$page = 0;
+				}
+			}
+			
+			$template_folder	= $this->general->template_folder.'/'.$this->general->template_name;
+			$strip_folder		= $this->strip_manager->strips_path;
+			$cache_folder		= $this->general->cache_folder;
+			$language		= $this->general->language;
+			if ($cache->init('gallery-'.$limit.'-'.$page, $template_folder, $strip_folder, $cache_folder, $language)) {
+				if ($cache->isInCache()) {
+					// the page is in cache, show cache
+					$cache->getCache();
+				} else {
+					// the cache must be re-generate
+					ob_start();
+					
+					$this->_genGallery();
+					
+					$cache_data = ob_get_contents();
+					ob_end_clean();
+					$cache->putInCache($cache_data);
+					$cache->getCache();
+				}
+			} else {
+				// error in the configuration cache, don't use the cache system
+				$this->_genGallery();
+			}
+		} else {
+			// don't use the cache system
+			$this->_genGallery();
+		}
+		
+	}
+	
+	
+	/**
+	 * Generate the HTML template of gallery
+	 *
+	 * @access	private
+	 */
+	function _genGallery()
+	{
+		$this->strip_manager->strips_list_get();
 		
 		// limit the number of strips in Gallery
 		$limit = $this->general->thumbs_per_page;
@@ -65,7 +144,7 @@ class gallery_manager
 			}
 		}
 
-		$lastpage = intval(($sm->strips_count - 1) / $limit);
+		$lastpage = intval(($this->strip_manager->strips_count - 1) / $limit);
 
 		if( !isset($_GET['page']) || $_GET['page'] == '' || !is_numeric($_GET['page']) ) {
 			$element_asked = 0;
@@ -84,29 +163,23 @@ class gallery_manager
 		$start = $element_asked * $limit;
 		$end = $start + $limit;
 
-		if ($end > $sm->strips_count) {
-			$end = $sm->strips_count;
+		if ($end > $this->strip_manager->strips_count) {
+			$end = $this->strip_manager->strips_count;
 		}
 
 		for( $i = $start; $i < $end;  $i++ ) {
-			$sm->strip_info_get( $i );
+			$this->strip_manager->strip_info_get( $i );
 			
-			$this->items_list[] = clone($sm); // hack for php4/5 compat
+			$this->items_list[] = clone($this->strip_manager); // hack for php4/5 compat
 		}
 
-		$this->nav_prev = $this->nav_base_url . ($element_asked - 1) . "&limit=$limit";
-		$this->nav_next = $this->nav_base_url . ($element_asked + 1) . "&limit=$limit";
-		$this->nav_last = $this->nav_base_url . $lastpage . "&limit=$limit";
-		$this->nav_first = $this->nav_base_url . "&limit=$limit";
-	}
-
-	/**
-	* Generate the Gallery output with the template engine.
-	*/
-	function generate() {
-		$sm = new strip_manager;
-		$output = new HTML_Template_Flexy($sm->options);
-		$output->compile('gallery_'.$sm->general->template_html);
+		$this->nav_prev = $this->nav_base_url . ($element_asked - 1) . "&limit=$limit" . $this->strip_manager->nav_lang_url;
+		$this->nav_next = $this->nav_base_url . ($element_asked + 1) . "&limit=$limit" . $this->strip_manager->nav_lang_url;
+		$this->nav_last = $this->nav_base_url . $lastpage . "&limit=$limit" . $this->strip_manager->nav_lang_url;
+		$this->nav_first = $this->nav_base_url . "&limit=$limit" . $this->strip_manager->nav_lang_url;
+		
+		$output = new HTML_Template_Flexy($this->strip_manager->options);
+		$output->compile($this->general->template_folder.'/'.$this->general->template_name.'/gallery_template.html');
 		$output->outputObject($this,$this->items_list);
 	}
 }
