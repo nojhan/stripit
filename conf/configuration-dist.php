@@ -116,7 +116,7 @@ class configuration
 	/**
 	 * Size of the thumbnails
 	 */
-	var $thumb_size = "200px";
+	var $thumb_size = 200;
 }
 
 ?>

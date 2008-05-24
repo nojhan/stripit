@@ -26,6 +26,12 @@ class strip_manager
 	* @var string
 	*/
 	var $strips_path = "./strips";
+	
+	/**
+	* Directory where to find strips thumbnail
+	* @var string
+	*/
+	var $strips_th_path = "./strips/th";
 
 	/**
 	* Directory where to find translations files
@@ -320,7 +326,11 @@ class strip_manager
 		// change the extension for {@link $img_src}
 		$png = explode( '.', $file);
 		$this->img_src = $this->strips_path.'/'.$png[0].'.png';
-		$this->thumbnail = $this->strips_path.'/'.$png[0].'.png';
+		$this->thumbnail = $this->strips_th_path.'/'.$png[0].'.png';
+		if (!$this->_getThumbnail()) {
+			// Error in generation of thumbnail, the thumbnail will be the original
+			$this->thumbnail = $this->strips_path.'/'.$png[0].'.png';
+		}
 
 		$this->source = $svg;
 		
@@ -369,6 +379,72 @@ class strip_manager
 			$this->forum_post_url = $this->general->forum . '/post.php?ttitle='.$this->title.'&fid='.$this->general->punbb_forum_id;
 			
 		}
+	}
+	
+	
+	/**
+	 * Return the link for the thumbnail (and create the thumbnail if neccesary)
+	 *
+	 * @return	bool			True if the thumbail is created, False else
+	 */
+	function _getThumbnail()
+	{
+		// check if the thumbnail exist
+		if (file_exists($this->thumbnail)) {
+			// the file exist, check if the original is create before the thumbnail
+			clearstatcache();
+			$original_time = filemtime($this->img_src);
+			$thumbnail_time = filemtime($this->thumbnail);
+			
+			if ($original_time >= $thumbnail_time) {
+				// There is a modification since the creation of thumbnail
+				return $this->_genThumbnail();
+			} else {
+				return true;
+			}
+		} else {
+			return $this->_genThumbnail();
+		}
+	}
+	
+	
+	/**
+	 * Create the thumbnail 
+	 *
+	 * @return	bool			True if the creation is OK, False else
+	 */
+	function _genThumbnail()
+	{
+		// check if the directory of thumbnail exists
+		if (!is_dir($this->strips_th_path)) {
+			return false;
+		}
+		
+		// calculate the width and height of thumbnail
+		$width = $this->general->thumb_size;
+		$size = getimagesize($this->img_src);
+		if ($size[0] > $width) {
+			$rapport = $size[0] / $width;
+			$height = $size[1] / $rapport;
+		} else {
+			$width = $size[0];
+			$height = $size[1];
+		}
+		
+		$img_src = imagecreatefrompng($this->img_src);
+		$img_dst = imagecreatetruecolor($width, $height);
+		
+		$res = imagecopyresampled($img_dst, $img_src, 0, 0, 0, 0, $width, $height, $size[0], $size[1]);
+		if (!$res) {
+			return false;
+		}
+		
+		$res = imagepng($img_dst, $this->thumbnail);
+		if (!$res) {
+			return false;
+		}
+		
+		return true;
 	}
 
 
