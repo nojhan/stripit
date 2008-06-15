@@ -111,6 +111,10 @@ class strip_manager
 	*/
 	var $source = '';
 	/**
+	* Size of the source file
+	*/
+	var $source_size = 0;
+	/**
 	* Description
 	*/
 	var $description;
@@ -333,6 +337,7 @@ class strip_manager
 		}
 
 		$this->source = $svg;
+		$this->source_size = filesize( $svg );
 		
 		if( file_exists($svg) ) {
 			$data = file_get_contents( $svg );
