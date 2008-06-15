@@ -1,23 +1,25 @@
 
 <rss version="2.0"
   xmlns:dc="http://purl.org/dc/elements/1.1/"
-  xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  xmlns:content="http://purl.org/rss/1.0/modules/content/"
+  xmlns:atom="http://www.w3.org/2005/Atom"
+>
 
 <channel>
+	<atom:link href="{general.url}/rss.php" rel="self" type="application/rss+xml" />
 	<title>{general.title}</title>
 	<link>{general.url}</link>
 	<ttl>1440</ttl>
 	<description>{general.description}</description>
 	<language>{general.language}</language>
-	<pubDate>{strip.date}</pubDate>
-    <generator>http://stripit.sourceforge.net</generator>
-    <image>
-        <url>{general.url}/favicon.png</url>
-        <title>{general.title}</title>
-        <link>{general.url}</link>
-    </image>
-    <managingEditor>{general.email} ({general.webmaster})</managingEditor>
-    <webMaster>{general.email} ({general.webmaster})</webMaster>
+	<generator>http://stripit.sourceforge.net</generator>
+	<image>
+		<url>{general.url}/favicon.png</url>
+		<title>{general.title}</title>
+		<link>{general.url}</link>
+	</image>
+	<managingEditor>{general.email} ({general.webmaster})</managingEditor>
+	<webMaster>{general.email} ({general.webmaster})</webMaster>
 	<copyright>Copyright {general.webmaster}</copyright>
 	<docs>http://cyber.law.harvard.edu/rss/</docs>
 	
@@ -25,11 +27,10 @@
 	<item>
 		<title>{strip.title}</title>
 		<link>{general.url}/{strip.nav_base_url}{strip.current_id}</link>
-		<guid isPermaLink="false">{strip.current_id}</guid>
-		<enclosure url="{general.url}/{strip.source}" type="audio/mpeg" type="image/svg+xml" />
+		<guid isPermaLink="true">{general.url}/{strip.source}"</guid>
+		<enclosure url="{general.url}/{strip.source}" type="image/svg+xml" length="{strip.source_size}" />
 		<pubDate>{strip.date}</pubDate>
 		<author>{strip.author}</author>
-		<dc:creator>{strip.author}</dc:creator>
 		<description>
 			&lt;a
                 title=&quot;{lang.source_rss}&quot;
