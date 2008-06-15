@@ -1,0 +1,96 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" lang="fr">
+
+<head>
+
+	<title>{general.title}</title>
+
+	<meta http-equiv="Content-Type" content="text/HTML; charset=utf-8"  />
+	<meta name=" robot" content="follow, index, all" />
+	<link rel="alternate" type="application/rss+xml" title="RSS" href="rss.php" />
+	<link rel="alternate" type="application/rss+xml" title="RSS: 10 items" href="rss.php?limit=10" />
+	<link rel="stylesheet" type="text/css" href="{general.template_folder}/{general.template_name}/style.css" />
+	<link rel="icon" type="image/png" href="favicon.png" />
+
+</head>
+
+<body>
+
+
+<!-- HEAD -->
+<div id="head">
+	<span id="title_block" class="head_block">
+		<h1 id="site_title">{general.title}</h1>
+		<p id="site_desc">{general.description}</p>
+		<span id="site_wotd">
+			<p id="wotd_title">{lang.wotd}:</p>
+			<ul id="wotd_text">{general.wotd:h}</ul>
+		</span>
+	</span>
+	<span id="site_block" class="head_block">
+		<ul id="site_map">
+			<li><a href="..">{lang.accueil}</a></li>
+			<li><a href="{general.forum}">{lang.forum}</a></li>
+			<li><a href="{geenral.shop}">{lang.boutique}</a></li>
+			<li><a href="mailto:{general.email}">{lang.contact}</a></li>
+		</ul>
+	</span>
+	<div id="feed_block" class="head_block">
+		<ul id="feed_list">
+			<li><a class="feed" id="feed_main" href="rss.php">{lang.rss}</a></li>
+			<li><a class="feed" href="rss.php?limit=10">10</a></li>
+		</ul>
+	</div>
+</div>
+
+
+<!-- NAV -->
+<ul class="nav_bar" id="nav_top">
+	<li><a id="navfirst" href="{nav_first}">{lang.premier}</a></li>
+	<li><a id="navprev" href="{nav_prev}">{lang.precedent}</a></li>
+	<li><a id="navnext" href="{nav_next}">{lang.suivant}</a></li>
+	<li><a id="navlast" href="{nav_last}">{lang.dernier}</a></li>
+</ul>
+
+
+<!-- STRIP -->
+<div id="strip_block">
+    {foreach:items_list,id,strip}
+	<div class="shadow">
+        <a href="{general.url}/{strip.nav_base_url}{strip.current_id}{strip.nav_lang_url}">
+            <img class="stripbox" 
+                 src="{general.url}/{strip.thumbnail}"
+                 title="{strip.title}" 
+                 style="width:{general.thumb_size}px;"
+            />
+         </a>
+	</div>
+    {end:}
+</div>
+
+<!-- NAV -->
+<ul class="nav_bar" id="nav_bottom">
+	<li><a id="navfirst" href="{nav_first}">{lang.premier}</a></li>
+	<li><a id="navprev" href="{nav_prev}">{lang.precedent}</a></li>
+	<li><a id="navnext" href="{nav_next}">{lang.suivant}</a></li>
+	<li><a id="navlast" href="{nav_last}">{lang.dernier}</a></li>
+</ul>
+
+
+<!-- FOOT -->
+<div id="foot">
+	<p>{lang.see_also}
+		<ul id="link_bar">
+		{foreach:general.see_also,name,url}
+			<li><a href="{url}">{name}</a></li>
+		{end:}
+		</ul>
+	</p>
+	<p>{lang.propulse} <a href="http://stripit.sourceforge.net/">Strip-It</a>, {lang.descstrip} ({general.version}).</p>
+</div>
+
+</body>
+
+
+</html>

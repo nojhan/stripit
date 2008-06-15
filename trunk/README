@@ -1,0 +1,53 @@
+-- Français -------------------------------------------------------------------------------------------------------------
+
+StripIt est une application web de gestion de webcomic au format SVG. 
+
+Fonctionnalités :
+* Le webcomic est accessible sous forme de page web et en flux RSS.
+* Les strips sont présentés un par un, avec boutons de naviguation. 
+* StripIt utilise les méta-données contenues dans les fichiers SVG pour présenter des informations supplémentaires (auteur, licence, description, etc.)
+* Pour publier un strip, il suffit de lancer un script qui va convertir le SVG en PNG et le télécharger via FTP sur un site web.
+* Les PNG produits conservent la plupart des méta-données du SVG.
+
+Contact : nojhan@gmail.com
+
+
+1. Installation
+
+* copiez les fichiers dans le répertoire de votre choix sur le serveur
+* renommez le fichier 'configuration-dist.php' en 'configuration.php'
+* éditez le fichier 'configuration.php' avec les valeurs de votre choix
+
+
+2. Utilisation
+
+2.1 Conversion et téléchargement automatique
+
+Vous devez appeler le script python "stripit.py" en lui passant en argument le fichier SVG créé.
+Il est possible de paramétrer le script (serveur FTP, options d'export, etc.) en utilisant un fichier "~/.stripit.conf", "./stripit.conf", ou encore en utilisant les options de la ligne de commande.
+
+Lancez "python stripit.py -h" pour plus d'informations.
+
+
+2.2 Conversion et téléchargement manuel
+
+Vous devez exporter vous-même le fichier SVG au format PNG. 
+En effet, Strip-It ne convertit pas de lui-même les fichiers SVG en PNG à la volée. Les fichiers doivent évidemment avoir le même nom, à l'extension près.
+Attention, il est probable que les méta-données ne soient pas incluent dans le PNG. Pour que les méta-données soient présente, utilisez le script (cf. 2.1).
+
+Vous devez télécharger à la fois les fichiers SVG et leur pendant PNG dans le répertoire 'strips/'.
+
+Strip-It extrait les informations à afficher de chaque fichier SVG. Ceux-ci doivent donc contenir des
+méta-données (au format RDF). Le logiciel Inkscape propose d'éditer ces données via le menu "Fichier > méta-données".
+
+
+3. Précautions
+
+Strip-It créé une page pour chaque fichier SVG présent, et les trie alphabétiquement sur leur nom. Pensez-donc à nommer
+les fichiers de manière adéquate.
+
+Attention, StripIt n'est testé que sur des fichiers SVG produits par le logiciel Inkscape. Il est très probable que les
+SVG issues d'autres logiciels ou de convertisseurs ne produisent pas les effets escomptés.
+
+
+

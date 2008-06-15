@@ -1,0 +1,31 @@
+SVN :
+* ajout d'un système de cache
+* correction de bug au niveau des langues
+* ajout d'une vue en vignettes
+* possibilité d'ajouter des commentaires avec PunBB (http://www.punbb.org)
+* légères modifications du template
+
+Version 0.4 :
+* script d'aide à l'export PNG et au téléchargement :
+	* ajout des métadonnées SVG lors de l'export
+	* configurable via la ligne de commande ou un fichier ~/.stripit.conf
+* entrées du flux RSS en ordre inverse, permet une lecture plus agréable sous les aggrégateurs ne triant pas sur la date (FireFox, par exemple)
+* fichier de configuration anonymisé
+* bugfix #1902085, le premier strip est désormais accessible
+* possibilité de limiter le nombre d'items dans le flux rss, en passant un paramètre en argument : rss.php?limit=10 
+
+Version 0.3 :
+* texte du SVG dans l'élément ALT de la balise image
+* flux RSS en version 2
+* bugfix RSS texte traduit absent
+* favicon
+* titre du strip dans le titre du HTML
+
+Version 0.2 :
+* xhtml valide, rss amélioré
+* support des descriptions RDF
+* fichier de configuration à part avec les infos générales
+* plus d'infos dans un bloc de bas de page
+
+Version 0.1 :
+* première version

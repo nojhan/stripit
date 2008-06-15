@@ -1,0 +1,207 @@
+html {
+    margin:0px;
+    padding:0px;
+}
+
+body {
+	background-color:black;
+	margin:0px;
+	padding:0px;
+}
+
+a {
+	color:white;
+	font-weight:bold;
+}
+
+a:hover {
+}
+
+.spacer {
+	clear:right;
+}
+
+/* HEAD */
+
+#head {
+}
+
+.head_block {
+	float:left;
+	height:113px;
+	padding:0.5em;
+	margin:0 1% 0 0.5%;
+	-moz-border-radius:10px;
+	background-position:bottom left;
+}
+
+#title_block {
+	width:60%;
+	background-image:url("design/gradient_blue.png");
+	background-color:#5276dd;
+}
+
+#site_block {
+	text-align:center;
+	width:15%;
+	background-color:#9652dd;
+	background-image:url("design/gradient_purple.png");
+	background-color:#9052dd;
+	vertical-align:middle;
+}
+
+#site_wotd {
+	text-align:right;
+	color:white;
+	position:absolute;
+	top:1em;
+	right:40%;
+	font-size:small;
+}
+
+#wotd_title {
+	font-style:italic;
+}
+
+ul#wotd_text {
+	list-style:none;
+}
+
+ul#site_map {
+	list-style:none;
+	padding:0px;
+	margin-top:20px;
+}
+
+#feed_block {
+	text-align:center;
+	width:15%;
+	background-image:url("design/gradient_orange.png");
+	background-color:#ff8400;
+}
+
+#feed_list {
+	background-image:url("design/rss_big.png");
+	background-repeat:no-repeat;
+	background-position:right bottom;
+	padding-right:95px;
+	padding-top:45px;
+	margin:0px;
+	list-style:none;
+}
+
+ul#feed_list>li {
+	margin:0px;
+}
+
+h1#site_title {
+	color:white;
+}
+
+#site_desc {
+	color:white;
+	font-size:small;
+}
+
+
+/* NAV */
+
+ul.nav_bar {
+	list-style:none;
+	text-align:center;
+	padding-top:170px;
+	margin-bottom:10px;
+}
+
+ul.nav_bar>li {
+	display:inline;
+	margin-left:5px;
+	margin-bottom:0px;
+	
+	padding:10px;
+	background-image:url("design/gradient_gray_small_2.png");
+	background-position:bottom;
+}
+
+#nav_bottom {
+	margin:0px;
+	margin-top:10px;
+	padding:0px;
+}
+
+ul#nav_bottom>li {
+	background-image:url("design/gradient_gray_small.png");
+	background-position:top;
+}
+
+
+/* STRIP */
+
+#strip_block {
+	background-color:white;
+	-moz-border-radius:20px;
+	width: 900px;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top:0px;
+	text-align:center;
+	padding:10px;	
+}
+
+img#strip {
+	border:thin solid black;
+	background-color:white;
+	margin-top:1em;
+	margin-bottom:1em;
+}
+
+.sub_block {
+	text-align:left;
+	-moz-border-radius:10px;
+	margin:10px;
+	padding:10px;
+	width:400px;
+}
+
+#meta_block {
+}
+
+#info_block {
+	background-color:#5276dd;
+	color:white;
+}
+
+#info_plus_block {
+	background-color:#5276dd;
+	color:white;
+	font-size:small;
+}
+
+#comments_block {
+	background-color:#99aeeb;
+}
+
+.stripbox {
+}
+
+
+/* FOOT */
+
+#foot {
+	background-image:url("design/gradient_gray.png");
+	background-color:black;
+	background-position:bottom;
+	color:white;
+	text-align:center;
+	padding:0.2em;
+	margin:1%;
+}
+
+ul#link_bar {
+	list-style:none;
+}
+
+ul#linkbar>li {
+	display:inline;
+	margin-left:1em;
+}
