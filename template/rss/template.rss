@@ -33,7 +33,7 @@
 		<description>
 			&lt;a
                 title=&quot;{lang.source_rss}&quot;
-                href=&quot;{general.url}/{strip.source}&quot;
+                href=&quot;{general.url}/{strip.nav_base_url}{strip.current_id}<&quot;
             &gt;
             &lt;img src=&quot;{general.url}/{strip.img_src}&quot; alt=&quot;{general.text}&quot; /&gt;
             &lt;/a&gt;
