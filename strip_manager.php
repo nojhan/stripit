@@ -12,7 +12,79 @@
 set_include_path(get_include_path() . PATH_SEPARATOR . getcwd());
 
 require_once 'HTML/Template/Flexy.php';
+require_once 'PEAR/XMLParser.php';
 require_once 'conf/configuration.php';
+
+class svg_parser extends PEAR_XMLParser
+{
+	/**
+	* Strip Manager object
+	*/
+	var $strip_manager;
+	/**
+	* Stack of current xml elements the parser is in
+	* @var array
+	*/
+	var $elem;
+	/**
+	* Value of current xml element
+	* @var string
+	*/
+	var $currentvalue;
+
+	function svg_parser($strip_manager)
+	{
+		$this->strip_manager = $strip_manager;
+		$this->elem = array();
+	}
+
+	function startHandler($xp, $name, $attribs)
+	{
+		array_push($this->elem, $name);
+		$this->currentvalue = "";
+
+		switch($name)
+		{
+			case "cc:license":
+				$this->strip_manager->license = $attribs["rdf:resource"];
+				break;
+		}
+	}
+
+	function endHandler($xp, $name)
+	{
+		$elem = array_pop($this->elem);
+		switch($elem)
+		{
+			case "dc:title":
+				// dc:title can appear multiple times, we're checking where we are
+				switch($this->elem[count($this->elem) - 2])
+				{
+					case "dc:creator":
+						$this->strip_manager->author =  $this->currentvalue;
+						break;
+					case "rdf:RDF":
+						$this->strip_manager->title =  $this->currentvalue;
+						break;
+				}
+				break;
+			case "dc:date":
+				$this->strip_manager->date = $this->currentvalue;
+				break;
+			case "dc:description":
+				$this->strip_manager->description = $this->currentvalue;
+				break;
+			case "tspan":
+				$this->strip_manager->text .= $this->currentvalue;
+				break;
+		}
+	}
+
+	function cdataHandler($xp, $cdata)
+	{
+		$this->currentvalue .= $cdata;
+	}
+}
 
 /**
 * Main manager
@@ -341,30 +413,9 @@ class strip_manager
 		
 		if( file_exists($svg) ) {
 			$data = file_get_contents( $svg );
-		
-			// note modifieurs : i = indépendant de la casse, s = . comprends les \n
 
-			// DC titles = document title, then author
-			preg_match_all('/<dc:title>(.*?)<\/dc:title>/i', $data, $matches);
-			$this->title = $matches[1][0];
-			$this->author = html_entity_decode( $matches[1][1] );
-
-			// Date
-			preg_match('/<dc:date>(.*?)<\/dc:date>/i', $data, $matches);
-			$this->date = $matches[1];
-
-			// License URL
-			preg_match_all('/rdf:resource="(.*?)" \/>/i', $data, $matches);
-			$this->license = $matches[1][1];
-
-			// Description
-			preg_match_all('/<dc:description>(.*?)<\/dc:description>/is', $data, $matches);
-			$this->description = str_replace( "\n", '<br/>', html_entity_decode( $matches[1][0] ) );
-			//$this->description = html_entity_decode( $matches[1][0] );
-
-			// All the texts inside the SVG
-			preg_match_all('/">(.*?)<\/tspan>/i',$data,$matches);
-			$this->text = html_entity_decode( implode( $matches[1], "\n" ) );
+			$parser = new svg_parser($this);
+			$parser->parse($data);
 		}
 
 		// if one want to use punbb as forum
