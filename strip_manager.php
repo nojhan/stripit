@@ -374,7 +374,7 @@ class strip_manager
 
 			if (!$fh) {
 				// TODO traduction
-				$this->comments = $this->lang-forum_error;
+				$this->comments = $this->lang->forum_error;
 			} else {
 				$this->comments = stream_get_contents($fh);
 				fclose($fh);
@@ -493,7 +493,7 @@ class strip_manager
 			$fh = fopen( $this->general->forum.'/extern.php?action=new&show=1&fid='.$this->general->punbb_wotd_id, 'r');
 
 			if (!$fh) {
-				$this->general->wotd = $this->lang-forum_error;
+				$this->general->wotd = $this->lang->forum_error;
 			} else {
 				$this->general->wotd = stream_get_contents($fh);
 				fclose($fh);
