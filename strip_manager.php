@@ -13,7 +13,9 @@ set_include_path(get_include_path() . PATH_SEPARATOR . getcwd());
 
 require_once 'HTML/Template/Flexy.php';
 require_once 'PEAR/XMLParser.php';
-require_once 'conf/configuration.php';
+// trying to give some meaningful info if there's no configuration file
+(@include_once 'conf/configuration.php') or
+	die("Strip It isn't configured yet: conf/configuration.php file is missing.<br/>See README for details.");
 
 class svg_parser extends PEAR_XMLParser
 {
