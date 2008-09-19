@@ -1,3 +1,6 @@
+SVN :
+* utilisation d'un parseur XML pour extraire les informations contenues dans les SVG en remplacement des expressions régulières
+
 Version 0.5 :
 * ajout d'un système de cache
 * correction de bug au niveau des langues
