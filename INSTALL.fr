@@ -1,14 +1,16 @@
-Configuration nécessaire:
+Configuration nécessaire :
 * serveur web avec support PHP
 
-Installation:
+Installation :
 * copier les fichiers dans le répertoire souhaité
-* éditez le fichier configuration.php
+* copier le fichier "configuration-dist.php" comme "configuration.php"
+* éditez le fichier "configuration.php", selon vos besoins
 * donnez les droits en écritures pour tous au répertoire "cache/"
 * donnez les droits en écritures pour tous aux répertoire "cache/" dans les répertoires contenu dans "template/"
 
-Utilisation:
+Utilisation :
 * Chaque strip est représenté par un fichier SVG et son export en PNG.
+	* vous pouvez produire le PNG avec le script "stripit.py", si vous avez Inkscape et python installés sur votre système
 * Pour un bon fonctionnement (affichage du titre, date, commentaires, etc.) chaque fichier SVG doit contenir des métadonnées au format RDF (dans Inkscape, Fichier > métadonnées).
 * Déposez ces deux fichiers dans le répertoire "strips/"
 

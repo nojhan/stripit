@@ -1,0 +1,16 @@
+Configuration:
+* web server with PHP support
+
+Installation:
+* copy all the files in the appropriated directory
+* copy the "configuration-dist.php" as "configuration.php"
+* edit the" configuration.php" file, according to your needs
+* give the write permissions for everyone to the "cache/" directory
+* give the same rights to the "cache/" directories, in the "template/" directory.
+
+Using:
+* Each strip is represented by a SVG file and its PNG export
+	* you may generate the PNG with the "stripy.py" script, if you have Inkscape and python installed on your system.
+* For correct operations (display of the title, date, comments, ...), each SVG file must have RDF metadata (using Inkscape: File > metadata).
+* Put these 2 files in the "strips" directory.
+
