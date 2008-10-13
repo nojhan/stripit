@@ -201,7 +201,7 @@ ul#link_bar {
 	list-style:none;
 }
 
-ul#linkbar>li {
+ul#link_bar>li {
 	display:inline;
 	margin-left:1em;
 }
