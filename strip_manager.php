@@ -423,7 +423,7 @@ class strip_manager
 		// if one want to use punbb as forum
 		if( $this->general->use_punbb ) {
 			// lasts posts associated to the strip
-			$fh = fopen( $this->general->forum.'/extern.php?action=topic&tid=1', 'r');
+			$fh = fopen( $this->general->forum.'/extern.php?action=topic&ttitle='.urlencode($this->title), 'r');
 
 			if (!$fh) {
 				// TODO traduction
@@ -434,7 +434,7 @@ class strip_manager
 			}
 	
 			// link for posting a new comment
-			$this->forum_post_url = $this->general->forum . '/post.php?ttitle='.$this->title.'&fid='.$this->general->punbb_forum_id;
+			$this->forum_post_url = $this->general->forum . '/post.php?ttitle='.urlencode($this->title).'&fid='.$this->general->punbb_forum_id;
 			
 		}
 	}

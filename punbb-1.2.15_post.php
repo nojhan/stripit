@@ -41,7 +41,7 @@ $fid = isset($_GET['fid']) ? intval($_GET['fid']) : 0;
 // Must ask for the topic title AND the forum id
 // http://localhost/~nojhan/punbb/upload/post.php?ttitle=Strip-It&fid=1
 
-$ttitle = isset($_GET['ttitle']) ? $_GET['ttitle'] : '';
+$ttitle = isset($_GET['ttitle']) ? utf8_decode($_GET['ttitle']) : '';
 
 if ($ttitle != '') {
 	// query a topic id on title match
@@ -67,7 +67,7 @@ if ($ttitle != '') {
 	
 	$ids = $db->fetch_row($result);
 	
-	var_dump( $ids );
+	//var_dump( $ids );
 	
 	// fetch only one value
 	$_tid = intval( $ids[0] );
@@ -83,6 +83,7 @@ if ($ttitle != '') {
 		
 		// the topic does not exists, but as a title is suggested, we put it in the entry field
 		$_POST['req_subject'] = $ttitle;
+		$subject = $ttitle;
 	}
 }
 

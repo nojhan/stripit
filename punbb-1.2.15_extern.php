@@ -340,7 +340,7 @@ else if ( $_GET['action'] == 'topic') {
 			FROM
 				'.$db->prefix.'topics AS t
 			WHERE
-				t.subject="'.$_GET['ttitle'].'"
+				t.subject="'.utf8_decode($_GET['ttitle']).'"
 			
 		;';
 
@@ -361,26 +361,26 @@ else if ( $_GET['action'] == 'topic') {
 			ORDER BY
 				p.edited
 			;';
-	} else {
 
-		error( 'Unable to fetch posts list, you must ask for a topic id or title', __FILE__, __LINE__, $db->error() );
-	}
+		$result = $db->query($sql) or error('Unable to fetch posts list', __FILE__, __LINE__, $db->error());
 
-        $result = $db->query($sql) or error('Unable to fetch posts list', __FILE__, __LINE__, $db->error());
+		while ($cur_post = $db->fetch_assoc($result))
+		{
+			if ($pun_config['o_censoring'] == '1')
+				$cur_post['message'] = censor_words($cur_post['message']);
 
-        while ($cur_post = $db->fetch_assoc($result))
-        {
-		if ($pun_config['o_censoring'] == '1')
-			$cur_post['message'] = censor_words($cur_post['message']);
+			$subject_truncated = $cur_post['message'];
+			if (pun_strlen($cur_post['message']) > $max_subject_length) {
+				$subject_truncated = pun_htmlspecialchars(trim(substr($cur_post['message'], 0, ($max_subject_length-5)))).' &hellip;';
+			} else {
+				$subject_truncated = pun_htmlspecialchars($cur_post['message']);
+			}
 
-		$subject_truncated = $cur_post['message'];
-		if (pun_strlen($cur_post['message']) > $max_subject_length) {
-			$subject_truncated = pun_htmlspecialchars(trim(substr($cur_post['message'], 0, ($max_subject_length-5)))).' &hellip;';
-		} else {
-			$subject_truncated = pun_htmlspecialchars($cur_post['message']);
+			echo '<li>'.$subject_truncated.'</li>';
 		}
-
-		echo '<li>'.$subject_truncated.'</li>';
+	} else {
+		// No error for a nice show in strip-it :-)
+		//error( 'Unable to fetch posts list, you must ask for a topic id or title', __FILE__, __LINE__, $db->error() );
 	}
 
 }
