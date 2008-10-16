@@ -69,6 +69,19 @@ class gallery_manager
 	* @access	public
 	*/
 	function generate() {
+		// if one want to use punbb as forum
+		if( $this->general->use_punbb ) {
+			// get the word of the day
+			$fh = fopen( $this->general->forum.'/extern.php?action=new&show=1&fid='.$this->general->punbb_wotd_id, 'r');
+
+			if (!$fh) {
+				$this->general->wotd = $this->lang->forum_error;
+			} else {
+				$this->general->wotd = stream_get_contents($fh);
+				fclose($fh);
+			}
+		}
+		
 		if ($this->general->use_cache) {
 			// use the cache system
 			include_once 'cache.class.php';
