@@ -18,6 +18,7 @@ class language
 	var $see_also	= "Voir aussi :";
 	var $forum	= "Forum";
 	var $forum_new	= "Nouveau";
+	var $forum_view	= "Voir le sujet";
 	var $forum_error = "Impossible de lire les commentaires";
 	var $comments = "Commentaires";
 	var $wotd = "Dernier message du webmaster";

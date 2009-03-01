@@ -18,6 +18,7 @@ class language
 	var $see_also	= "See also:";
 	var $forum	="Forum";
 	var $forum_new  = "New";
+	var $forum_view = "Show the topic";
 	var $forum_error = "Cannot read comments";
 	var $comments = "Comments";
 	var $wotd = "Word of the day";

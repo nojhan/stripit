@@ -72,6 +72,11 @@ class configuration
 	var $punbb_wotd_id = '1';
 
 	/**
+	* PunBB's forum max length for the message
+	*/
+	var $punbb_max_length = 60;
+
+	/**
 	* Additional URL
 	*/
 	var $see_also = array(

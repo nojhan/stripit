@@ -423,19 +423,19 @@ class strip_manager
 		// if one want to use punbb as forum
 		if( $this->general->use_punbb ) {
 			// lasts posts associated to the strip
-			$fh = fopen( $this->general->forum.'/extern.php?action=topic&ttitle='.urlencode($this->title), 'r');
+			$fh = fopen( $this->general->forum.'/extern.php?action=topic&ttitle='.urlencode($this->title).'&max_subject_length='.$this->general->punbb_max_length, 'r');
 
 			if (!$fh) {
 				// TODO traduction
 				$this->comments = $this->lang->forum_error;
 			} else {
-				$this->comments = stream_get_contents($fh);
+				$this->comments = utf8_encode(stream_get_contents($fh));
 				fclose($fh);
 			}
 	
 			// link for posting a new comment
 			$this->forum_post_url = $this->general->forum . '/post.php?ttitle='.urlencode($this->title).'&fid='.$this->general->punbb_forum_id;
-			
+			$this->forum_view_url = $this->general->forum . '/redirect_stripit.php?ttitle='.urlencode($this->title);
 		}
 	}
 	

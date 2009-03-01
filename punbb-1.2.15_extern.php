@@ -363,6 +363,10 @@ else if ( $_GET['action'] == 'topic') {
 			;';
 
 		$result = $db->query($sql) or error('Unable to fetch posts list', __FILE__, __LINE__, $db->error());
+                
+                if (isset($_GET['max_subject_length']) && is_numeric($_GET['max_subject_length']) && !empty($_GET['max_subject_length'])) {
+                    $max_subject_length = $_GET['max_subject_length'];
+                }
 
 		while ($cur_post = $db->fetch_assoc($result))
 		{
