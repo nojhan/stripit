@@ -22,6 +22,8 @@ class language
 	var $forum_error = "Impossible de lire les commentaires";
 	var $comments = "Commentaires";
 	var $wotd = "Dernier message du webmaster";
+
+	var $gallery = "Galerie";
 	
 	function language()
 	{

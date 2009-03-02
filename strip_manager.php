@@ -151,6 +151,10 @@ class strip_manager
 	* First
 	*/
 	var $nav_first = 0;
+	/**
+	* First
+	*/
+	var $nav_gallery = "gallery.php";
 
 	/**
 	* Variable concerning the current strip

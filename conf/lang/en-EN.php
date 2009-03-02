@@ -23,6 +23,8 @@ class language
 	var $comments = "Comments";
 	var $wotd = "Word of the day";
         	
+	var $gallery = "Gallery";
+
 	function language()
 	{
 		$vars = get_class_vars(__CLASS__);
