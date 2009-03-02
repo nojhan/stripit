@@ -17,7 +17,7 @@ class configuration
 	/**
 	* Software version
 	*/
-	var $version = 'pre-0.5 (2008-04-22)';
+	var $version = '0.6';
 
 	/**
 	* URL of the website
@@ -125,3 +125,4 @@ class configuration
 }
 
 ?>
+

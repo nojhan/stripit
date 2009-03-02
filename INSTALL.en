@@ -14,3 +14,7 @@ Using:
 * For correct operations (display of the title, date, comments, ...), each SVG file must have RDF metadata (using Inkscape: File > metadata).
 * Put these 2 files in the "strips" directory.
 
+Installation of patchs for punBB (for comments management):
+* copy "punbb-1.2.15_extern.php", "punbb-1.2.15_post.php" and "punbb-1.2.15_redirect_stripit.php" at the root directory of the punBB installation
+* delete the strings "punbb-1.2.15_" in the filenames
+
