@@ -496,6 +496,11 @@ class strip_manager
 		$img_src = imagecreatefrompng($this->img_src);
 		$img_dst = imagecreatetruecolor($width, $height);
 		
+		// Preserve alpha transparency : thank crash <http://www.php.net/manual/fr/function.imagecopyresampled.php#85038>
+		imagecolortransparent($img_dst, imagecolorallocate($img_dst, 0, 0, 0));
+		imagealphablending($img_dst, false);
+		imagesavealpha($img_dst, true);
+		
 		$res = imagecopyresampled($img_dst, $img_src, 0, 0, 0, 0, $width, $height, $size[0], $size[1]);
 		if (!$res) {
 			return false;
@@ -542,6 +547,7 @@ class strip_manager
 		$this->nav_next = $this->nav_base_url.($element_asked+1).$this->nav_lang_url;
 		$this->nav_last = $this->nav_base_url.($this->strips_count-1).$this->nav_lang_url;
 		$this->nav_first = $this->nav_base_url."0".$this->nav_lang_url;
+		$this->nav_gallery = $this->nav_gallery.'?page='.floor($element_asked / $this->general->thumbs_per_page).'&limit='.$this->general->thumbs_per_page;
 
 		
 		// if one want to use punbb as forum
