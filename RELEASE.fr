@@ -1,4 +1,8 @@
-SVN :
+Version 0.6 :
+* affichage plus long des commentaires (128 caractères par défaut)
+* un lien vers la page des commentaires sur le forum
+* un lien vers la galerie, pour une navigation plus rapide (fonctionnalité déjà présente avant, mais non liée dans le template par défaut)
+* une génération des vignettes par GD
 * utilisation d'un parseur XML pour extraire les informations contenues dans les SVG en remplacement des expressions régulières
 
 Version 0.5 :
