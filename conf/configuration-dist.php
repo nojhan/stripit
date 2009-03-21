@@ -94,11 +94,6 @@ class configuration
 	var $use_cache = true;
 	
 	/**
-	 * cache folder (in the template folder)
-	 */
-	var $cache_folder = 'cache';
-	
-	/**
 	 * HTML template folder
 	 */
 	var $template_folder = './template';

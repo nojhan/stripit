@@ -23,6 +23,12 @@ class STRIPIT_Cache
 	var $template;
 	
 	/**
+	 * template name
+	 * @var string
+	 */
+	var $template_name;
+	
+	/**
 	 * name of strip
 	 * @var string
 	 */
@@ -57,6 +63,7 @@ class STRIPIT_Cache
 	{
 		$this->cache_folder	= '';
 		$this->template		= '';
+		$this->template_name	= '';
 		$this->page		= '';
 		$this->strip_folder	= '';
 		$this->stats		= array();
@@ -69,6 +76,7 @@ class STRIPIT_Cache
 	 *
 	 * @param	string	$page		Name of the strip for HTML or number of strip for RSS
 	 * @param	string	$template	Name of the template file
+	 * @param	string	$template_name	Name of the template
 	 * @param	string	$strip_folder	Name of the strip folder
 	 * @param	string	$cache_folder	Name of the folder where the cache file is save
 	 * @param	string	$language	The language to use
@@ -76,15 +84,16 @@ class STRIPIT_Cache
 	 * @access	public
 	 * @return	bool			True if all is OK, false else
 	 */
-	function init($page, $template, $strip_folder, $cache_folder, $language, $is_rss = false)
+	function init($page, $template, $template_name, $strip_folder, $cache_folder, $language, $is_rss = false)
 	{
+		$this->template_name	= $template_name;
 		$this->_getName($page, $language, $is_rss);
 		$this->template		= $template;
 		$this->strip_folder	= $strip_folder;
 		$this->cache_data	= '';
 		
-		if (!empty($cache_folder)) {
-			$this->cache_folder = $this->template.'/'.$cache_folder;
+		if (!empty($cache_folder) && file_exists($cache_folder)) {
+			$this->cache_folder = $cache_folder;
 		} else {
 			$this->cache_folder = $this->template.'/cache';
 		}
@@ -300,9 +309,9 @@ class STRIPIT_Cache
 	function _getName($page, $language, $is_rss)
 	{
 		if ($is_rss) {
-			$this->page = $page.'_'.$language.'_cache_rss.php';
+			$this->page = $page.'_'.$this->template_name.'_'.$language.'_cache_rss.php';
 		} else {
-			$this->page = $page.'_'.$language.'_cache_html.php';
+			$this->page = $page.'_'.$this->template_name.'_'.$language.'_cache_html.php';
 		}
 	}
 }

@@ -110,8 +110,8 @@ class rss_manager
 			
 			$template_folder	= $this->general->template_folder.'/'.$this->general->template_rss;
 			$strip_folder		= $this->strip_manager->strips_path;
-			$cache_folder		= $this->general->cache_folder;
-			if ($cache->init($limit, $template_folder, $strip_folder, $cache_folder, '', true)) {
+			$cache_folder		= $this->strip_manager->options['compileDir'];
+			if ($cache->init($limit, $template_folder, $this->general->template_rss, $strip_folder, $cache_folder, '', true)) {
 				if ($cache->isInCache()) {
 					// the page is in cache, show cache
 					$cache->getCache();

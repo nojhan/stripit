@@ -109,9 +109,9 @@ class gallery_manager
 			
 			$template_folder	= $this->general->template_folder.'/'.$this->general->template_name;
 			$strip_folder		= $this->strip_manager->strips_path;
-			$cache_folder		= $this->general->cache_folder;
+			$cache_folder		= $this->strip_manager->options['compileDir'];
 			$language		= $this->general->language;
-			if ($cache->init('gallery-'.$limit.'-'.$page, $template_folder, $strip_folder, $cache_folder, $language)) {
+			if ($cache->init('gallery-'.$limit.'-'.$page, $template_folder, $this->general->template_name, $strip_folder, $cache_folder, $language)) {
 				if ($cache->isInCache()) {
 					// the page is in cache, show cache
 					$cache->getCache();
