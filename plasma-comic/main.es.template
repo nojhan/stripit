@@ -1,0 +1,198 @@
+/*
+ *   Copyright (C) 2007 Frédéric Forjan <fforjan@free.fr>
+ *
+ *   This program is free software; you can redistribute it and/or modify
+ *   it under the terms of the GNU Library General Public License version 2 as
+ *   published by the Free Software Foundation
+ *
+ *   This program is distributed in the hope that it will be useful,
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *   GNU General Public License for more details
+ *
+ *   You should have received a copy of the GNU Library General Public
+ *   License along with this program; if not, write to the
+ *   Free Software Foundation, Inc.,
+ *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ */
+function websiteUrl(id)
+{
+  if(id ==0)
+      return URL + "index.php";
+  return URL + "index.php?strip=" + (id-1);
+}
+
+
+//init function
+function init()
+{
+    print("** Init() **");    
+  
+    //we get the current ID, 0 if its first time !
+    var currentID = comic.identifier;
+    print("current ID :"+ currentID);
+    
+    //our first id is always 1...
+    comic.firstIdentifier = 1;
+     
+     //so if we are on ID 0, first time so go to take the latest image !
+    if (currentID == 0) {
+        print("loading the latest image...");
+        comic.requestPage(websiteUrl(0), comic.User);
+    }
+    else        
+    {        
+    	comic.requestPage(websiteUrl(currentID), comic.Page);
+    }
+}
+
+function getTitle(data)
+{
+    var title = "";
+    var reTitle = new RegExp('<title>.* - (.+)</title>');
+    var match = reTitle.exec(data);
+    if ( match != null ) {	     
+	title = match[1];
+        
+	print("title :" +title);        
+    } else {
+	print("title not found !");
+    }
+    return title;
+}
+
+
+function getLastID(data)
+{
+    var lastID = 0;
+    //we retrieve the last ID from nav link...	
+    var re = new RegExp('id="navlast" href="index\\.php\\?strip=(\\d+)"');
+    var match = re.exec(data);
+    if ( match != null ) {	     
+	lastID = match[1];
+	print("last id = " +lastID);   
+    }
+    else {	
+	  print("cannot parse last id");
+	}
+
+    return parseInt(lastID)+1;
+}
+
+function getNextID(data)
+{
+    var nextID = 0;
+    //we retrieve the next ID from nav link...	
+    var re = new RegExp('id="navnext" href="index\\.php\\?strip=(\\d+)"');
+    var match = re.exec(data);
+    if ( match != null ) {	     
+	nextID = match[1];
+	print("next id = " +nextID);   
+    }
+    else {	
+	  print("cannot parse next id");
+	}
+
+    return parseInt(nextID)+1;
+}
+
+function getPrevID(data)
+{
+   var prevID = 0;
+    //we retrieve the prev ID from nav link...	
+    var re = new RegExp('id="navprev" href="index\\.php\\?strip=(\\d+)"');
+    var match = re.exec(data);
+    if ( match != null ) {	     
+	prevID = match[1];
+	print("prev id = " +prevID);   
+    }
+    else {	
+	  print("cannot parse prev id");
+	}
+
+    return parseInt(prevID)+1; 
+}
+
+
+function getAdditionnalText(data)
+{
+
+	/** @FF remove the additionnal text since we cannot escape html char..today ?
+	var reAddText = new RegExp('<img id="strip" class="content" src="\./strips/.*png" alt="(.+)" />');
+	match = reAddText.exec(data);
+        if ( match != null ) {	     
+	    var addText  = match[1];
+            comic.additionalText = addText;
+	    print("addText :" +addText);        
+        } else {
+	    print("addText not found !");
+        }
+	*/
+
+}
+
+
+function getAuthor(data)
+{
+    var author ="<unknown>";
+    //we retrieve the last ID from nav link...	
+    var re = new RegExp('<p id="author">(.+)</p>.+<p id="date">');
+    var match = re.exec(data);
+    if ( match != null ) {	     
+	author = match[1];
+	print("author = " +author);   
+    }
+    else {	
+	  print("cannot parse last id");
+	}
+    return author;	
+}
+
+function getImageUrl(data)
+{
+     var url ="<unknown>";
+    //we retrieve the last ID from nav link...	
+    var re = new RegExp('<img id="strip" class="content" src="(.+)" alt');
+    var match = re.exec(data);
+    if ( match != null ) {	     
+	url = URL + match[1];
+	print("img url = " +url);   
+    }
+    else {	
+	  print("cannot parse image url");
+	}
+    return url;
+
+}
+
+function pageRetrieved(id, data)
+{
+  
+    if (id == comic.User) {
+    	//find the most recent strip
+	var lastid = getLastID(data);	
+
+        comic.identifier = lastid;	   
+        comic.requestPage(websiteUrl(lastid), comic.Page);        
+    }
+    if( id == comic.Page) {
+    	print("parsing page for id :" + comic.identifier);
+
+        //set the current url
+	comic.websiteUrl = websiteUrl(comic.identifier);
+	
+	//retrieve the title
+        comic.title = getTitle(data);	
+
+         //retrieve the last  ID	
+	comic.lastIdentifier = getLastID(data);
+	comic.nextIdentifier = getNextID(data);
+	comic.previousIdentifier =  getPrevID(data);
+	//retrieve the author
+	comic.comicAuthor = getAuthor(data);	
+	
+	//load the image
+    	comic.requestPage(getImageUrl(data),comic.Image);       
+    }
+
+}
