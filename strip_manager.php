@@ -581,7 +581,7 @@ class strip_manager
 			if (!$fh) {
 				$this->general->wotd = $this->lang->forum_error;
 			} else {
-				$this->general->wotd = stream_get_contents($fh);
+				$this->general->wotd = utf8_encode(stream_get_contents($fh));
 				fclose($fh);
 			}
 		}
