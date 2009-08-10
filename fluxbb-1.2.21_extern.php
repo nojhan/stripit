@@ -234,6 +234,36 @@ if ($_GET['action'] == 'active' || $_GET['action'] == 'new')
 		echo '</channel>'."\r\n";
 		echo '</rss>';
 	}
+        
+        
+        // Patch RSS for Strip-It
+        elseif (isset($_GET['type']) && strtoupper($_GET['type']) == 'LAST_RSS') {
+		$show = isset($_GET['show']) ? intval($_GET['show']) : 15;
+		if ($show < 1 || $show > 50)
+			$show = 15;
+
+		// Fetch $show topics
+		$result = $db->query('SELECT t.id, t.poster, t.subject, t.posted, t.last_post, f.id AS fid, f.forum_name, p.message FROM '.$db->prefix.'topics AS t INNER JOIN '.$db->prefix.'forums AS f ON f.id=t.forum_id LEFT JOIN '.$db->prefix.'forum_perms AS fp ON (fp.forum_id=f.id AND fp.group_id=3) LEFT JOIN '.$db->prefix.'posts AS p ON (p.topic_id = t.id) WHERE (fp.read_forum IS NULL OR fp.read_forum=1) AND t.moved_to IS NULL'.$forum_sql.' ORDER BY '.$order_by.' DESC LIMIT '.$show) or error('Unable to fetch topic list', __FILE__, __LINE__, $db->error());
+
+
+		while ($cur_topic = $db->fetch_assoc($result))
+		{
+			if ($pun_config['o_censoring'] == '1')
+				$cur_topic['subject'] = censor_words($cur_topic['subject']);
+
+			if (pun_strlen($cur_topic['subject']) > $max_subject_length)
+				$subject_truncated = pun_htmlspecialchars(trim(substr($cur_topic['subject'], 0, ($max_subject_length-5)))).' &hellip;';
+			else
+				$subject_truncated = pun_htmlspecialchars($cur_topic['subject']);
+
+
+			echo "\t".'<item>'."\r\n";
+			echo "\t\t".'<title>'.pun_htmlspecialchars($cur_topic['subject']).'</title>'."\r\n";
+			echo "\t\t".'<link>'.$pun_config['o_base_url'].'/viewtopic.php?id='.$cur_topic['id'].$url_action.'</link>'."\r\n";
+			echo "\t\t".'<description><![CDATA['.escape_cdata($cur_topic['message']).']]></description>'."\r\n";
+			echo "\t".'</item>'."\r\n";
+		}
+        }
 
 
 	// Output regular HTML

@@ -94,10 +94,7 @@ class rss_manager
 	*
 	* @access	public
 	*/
-	function generate() {
-		header('Content-Type: application/rss+xml');
-		echo "<?xml version=\"1.0\" encoding=\"utf-8\"?>";
-		
+	function generate() {		
 		if ($this->general->use_cache) {
 			// use the cache system
 			include_once 'cache.class.php';
@@ -114,6 +111,7 @@ class rss_manager
 			if ($cache->init($limit, $template_folder, $this->general->template_rss, $strip_folder, $cache_folder, '', true)) {
 				if ($cache->isInCache()) {
 					// the page is in cache, show cache
+					$this->_sendHeader();
 					$cache->getCache();
 				} else {
 					// the cache must be re-generate
@@ -124,14 +122,25 @@ class rss_manager
 					$cache_data = ob_get_contents();
 					ob_end_clean();
 					$cache->putInCache($cache_data);
-					$cache->getCache();
+					if ($this->general->use_punbb) {
+						// if we generate the cache the first time with comments
+						// redirect in the same page for use the cache (because the first
+						// time we see the php code)
+						header('Location: '.$_SERVER['REQUEST_URI']);
+						exit();
+					} else {
+						$this->_sendHeader();
+						$cache->getCache();
+					}
 				}
 			} else {
 				// error in the configuration cache, don't use the cache system
+				$this->_sendHeader();
 				$this->_genRss();
 			}
 		} else {
 			// don't use the cache system
+			$this->_sendHeader();
 			$this->_genRss();
 		}
 	}
@@ -146,9 +155,59 @@ class rss_manager
 	{
 		$this->_init();
 		
+		$this->_genAnnonce();
+		
 		$output = new HTML_Template_Flexy($this->strip_manager->options);
 		$output->compile($this->general->template_folder.'/'.$this->general->template_rss.'/template.rss');
 		$output->outputObject($this,$this->items_list);
+	}
+	
+	
+	/**
+	 * Generate the RSS item for announce of webmaster
+	 *
+	 * @access	private
+	 */
+	function _genAnnonce()
+	{
+		// if one want to use punbb as forum
+		if( $this->general->use_punbb ) {
+			if ($this->general->use_cache) {
+				// get the word of the day
+				$this->general->wotd = '<?php 
+				$fh = fopen( \''.$this->general->forum.'/extern.php?action=new&show=1&type=last_rss&fid='.$this->general->punbb_wotd_id.'\', \'r\');
+	
+				if (!$fh) {
+					echo \''.str_replace("'", "\'", $this->lang->forum_error).'\';
+				} else {
+					echo utf8_encode(stream_get_contents($fh));
+					fclose($fh);
+				}
+				?>';
+			} else {
+				// get the word of the day
+				$fh = fopen( $this->general->forum.'/extern.php?action=new&show=1&type=last_rss&fid='.$this->general->punbb_wotd_id, 'r');
+	
+				if (!$fh) {
+					$this->general->wotd = $this->lang->forum_error;
+				} else {
+					$this->general->wotd = utf8_encode(stream_get_contents($fh));
+					fclose($fh);
+				}
+			}
+		}
+	}
+	
+	
+	/**
+	 * Send the header XML
+	 *
+	 * @access private
+	 */
+	function _sendHeader()
+	{
+		header('Content-Type: application/rss+xml');
+		echo "<?xml version=\"1.0\" encoding=\"utf-8\"?>";
 	}
 }
 

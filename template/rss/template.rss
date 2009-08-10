@@ -22,7 +22,7 @@
 	<webMaster>{general.email} ({general.webmaster})</webMaster>
 	<copyright>Copyright {general.webmaster}</copyright>
 	<docs>http://cyber.law.harvard.edu/rss/</docs>
-	
+	{general.wotd:h}
 {foreach:items_list,id,strip}
 	<item>
 		<title>{strip.title}</title>
