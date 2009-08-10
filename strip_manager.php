@@ -342,7 +342,15 @@ class strip_manager
 					$cache_data = ob_get_contents();
 					ob_end_clean();
 					$cache->putInCache($cache_data);
-					$cache->getCache();
+					if ($this->general->use_punbb) {
+						// if we generate the cache the first time with comments
+						// redirect in the same page for use the cache (because the first
+						// time we see the php code)
+						header('Location: '.$_SERVER['REQUEST_URI']);
+						exit();
+					} else {
+						$cache->getCache();
+					}
 				}
 			} else {
 				// error in the configuration cache, don't use the cache system
@@ -426,17 +434,32 @@ class strip_manager
 
 		// if one want to use punbb as forum
 		if( $this->general->use_punbb ) {
-			// lasts posts associated to the strip
-			$fh = fopen( $this->general->forum.'/extern.php?action=topic&ttitle='.urlencode($this->title).'&max_subject_length='.$this->general->punbb_max_length, 'r');
-
-			if (!$fh) {
-				// TODO traduction
-				$this->comments = $this->lang->forum_error;
-			} else {
-				$this->comments = utf8_encode(stream_get_contents($fh));
-				fclose($fh);
-			}
+			if ($this->general->use_cache) {
+				// if we use cache, we must add the php code in the cache else the new comment can't be show
+				// lasts posts associated to the strip
+				$this->comments = '<?php
+				$fh = fopen( \''.$this->general->forum.'/extern.php?action=topic&ttitle='.urlencode($this->title).'&max_subject_length='.$this->general->punbb_max_length.'\', \'r\');
 	
+				if (!$fh) {
+					// TODO traduction
+					echo \''.str_replace("'", "\'", $this->lang->forum_error).'\';
+				} else {
+					echo utf8_encode(stream_get_contents($fh));
+					fclose($fh);
+				}
+				?>';
+			} else {
+				// lasts posts associated to the strip
+				$fh = fopen( $this->general->forum.'/extern.php?action=topic&ttitle='.urlencode($this->title).'&max_subject_length='.$this->general->punbb_max_length, 'r');
+	
+				if (!$fh) {
+					// TODO traduction
+					$this->comments = $this->lang->forum_error;
+				} else {
+					$this->comments = utf8_encode(stream_get_contents($fh));
+					fclose($fh);
+				}
+			}
 			// link for posting a new comment
 			$this->forum_post_url = $this->general->forum . '/post.php?ttitle='.urlencode($this->title).'&fid='.$this->general->punbb_forum_id;
 			$this->forum_view_url = $this->general->forum . '/redirect_stripit.php?ttitle='.urlencode($this->title);

@@ -225,7 +225,6 @@ class STRIPIT_Cache
 	function getCache()
 	{
 		echo $this->cache_data;
-		//exit();
 	}
 	
 	
@@ -276,7 +275,7 @@ class STRIPIT_Cache
 			if ($i != 0) {
 				$str .= ',';
 			}
-			$str .= '\''.$key.'\' => \''.$value.'\''.$br;
+			$str .= '\''.str_replace("'", "\'", $key).'\' => \''.$value.'\''.$br;
 			$i++;
 		}
 		$str .= ');'.$br;
