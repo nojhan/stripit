@@ -1,0 +1,47 @@
+<rss version="2.0"
+  xmlns:dc="http://purl.org/dc/elements/1.1/"
+  xmlns:content="http://purl.org/rss/1.0/modules/content/"
+  xmlns:atom="http://www.w3.org/2005/Atom"
+>
+
+<channel>
+  <atom:link href="<?php echo $config->getUrl() ?>/rss.php" rel="self" type="application/rss+xml" />
+  <title><![CDATA[<?php echo $config->getTitle() ?>]]></title>
+  <link><?php echo $config->getUrl() ?></link>
+  <ttl>1440</ttl>
+  <description><![CDATA[<?php echo $config->getDescription() ?>]]></description>
+  <language><?php echo $lang ?></language>
+  <generator>http://stripit.sourceforge.net</generator>
+  <image>
+    <url><?php echo $config->getUrl() ?>/favicon.png</url>
+    <title><![CDATA[<?php echo $config->getTitle() ?>]]></title>
+    <link><?php echo $config->getUrl() ?></link>
+  </image>
+  <managingEditor><![CDATA[<?php echo $config->getEmail() ?> (<?php echo $config->getWebmaster() ?>)]]></managingEditor>
+  <webMaster><![CDATA[<?php echo $config->getEmail() ?> (<?php echo $config->getWebmaster() ?>)]]></webMaster>
+  <copyright><![CDATA[Copyright <?php echo $config->getWebmaster() ?>]]></copyright>
+  <docs>http://cyber.law.harvard.edu/rss/</docs>
+  <?php echo $wotd ?>
+  <?php foreach ($list as $id => $strip) { ?>
+  <item>
+    <title><![CDATA[<?php echo $strip->getTitle() ?>]]></title>
+    <link><?php echo $nav_img.$id ?></link>
+    <guid isPermaLink="true"><?php echo $config->getUrl().'/'.$strip->getFilenameSrc() ?></guid>
+    <enclosure url="<?php echo $config->getUrl().'/'.$strip->getFilenameSrc() ?>" type="image/svg+xml" length="<?php echo $strip->getSourceSize() ?>" />
+    <pubDate><?php echo $strip->getDate(true) ?></pubDate>
+    <author><![CDATA[<?php echo $strip->getAuthor() ?>]]></author>
+    <description><![CDATA[
+      <a title="<?php echo $lang->getSourceRss() ?>" href="<?php echo $nav_img.$id ?>">
+      <img src="<?php echo $config->getUrl().'/'.$strip->getFilenamePng() ?>" alt="<?php echo $strip->getText() ?>" />
+            </a>
+            <p><?php echo $strip->getdescription() ?><p>
+            <p><?php echo $lang->getlicence() ?> : <a href="<?php echo $strip->getLicense() ?>"><?php echo $strip->getLicense() ?></a><p>
+
+            <a href="<?php echo $config->getFluxbbForum() ?>"><?php echo $lang->getForum() ?></a>
+            <a href="<?php echo $config->getShop() ?>"><?php echo $lang->getBoutique() ?></a>
+    ]]></description>
+  </item>
+  <?php } ?>
+
+</channel>
+</rss>

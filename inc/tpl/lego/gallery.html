@@ -1,0 +1,92 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" lang="fr">
+
+<head>
+
+  <title><?php echo $config->getTitle() ?></title>
+
+  <meta http-equiv="Content-Type" content="text/HTML; charset=utf-8"  />
+  <meta name=" robot" content="follow, index, all" />
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="rss.php" />
+  <link rel="alternate" type="application/rss+xml" title="RSS: 10 items" href="rss.php?limit=10" />
+  <link rel="stylesheet" type="text/css" href="<?php echo $config->getTemplateFolder() ?>/<?php echo $config->getTemplateName() ?>/style.css" />
+  <link rel="icon" type="image/png" href="favicon.png" />
+
+</head>
+
+<body>
+
+
+<!-- HEAD -->
+<div id="head">
+  <span id="title_block" class="head_block">
+    <h1 id="site_title"><?php echo $config->getTitle() ?></h1>
+    <p id="site_desc"><?php echo $config->getDescription() ?></p>
+    <span id="site_wotd">
+      <p id="wotd_title"><?php echo $lang->getWotd() ?>:</p>
+      <ul id="wotd_text"><?php echo $wotd ?></ul>
+    </span>
+  </span>
+  <span id="site_block" class="head_block">
+    <ul id="site_map">
+      <li><a href=".."><?php echo $lang->getAccueil() ?></a></li>
+      <li><a href="<?php echo $config->getFluxbbForum() ?>"><?php echo $lang->getForum() ?></a></li>
+      <li><a href="<?php echo $config->getShop() ?>"><?php echo $lang->getBoutique() ?></a></li>
+      <li><a href="mailto:<?php echo $config->getEmail() ?>"><?php echo $lang->getContact() ?></a></li>
+    </ul>
+  </span>
+  <div id="feed_block" class="head_block">
+    <ul id="feed_list">
+      <li><a class="feed" id="feed_main" href="rss.php"><?php echo $lang->getRss() ?></a></li>
+      <li><a class="feed" href="rss.php?limit=10">10</a></li>
+    </ul>
+  </div>
+</div>
+
+
+<!-- NAV -->
+<ul class="nav_bar" id="nav_top">
+  <li><a id="navfirst" href="<?php echo $nav_first ?>"><?php echo $lang->getPremier() ?></a></li>
+  <li><a id="navprev" href="<?php echo $nav_prev ?>"><?php echo $lang->getPrecedent() ?></a></li>
+  <li><a id="navnext" href="<?php echo $nav_next ?>"><?php echo $lang->getSuivant() ?></a></li>
+  <li><a id="navlast" href="<?php echo $nav_last ?>"><?php echo $lang->getDernier() ?></a></li>
+</ul>
+
+
+<!-- STRIP -->
+<div id="strip_block">
+  <?php foreach ($list as $id => $strip) { ?>
+  <div class="shadow">
+        <a href="<?php echo $nav_img.$id ?>">
+            <img class="stripbox" src="<?php echo $strip->getThumbSrc() ?>" title="<?php echo $strip->getTitle() ?>" style="width:<?php echo $config->getThumbSize() ?>px;" />
+         </a>
+  </div>
+  <?php } ?>
+</div>
+
+<!-- NAV -->
+<ul class="nav_bar" id="nav_bottom">
+  <li><a id="navfirst" href="<?php echo $nav_first ?>"><?php echo $lang->getPremier() ?></a></li>
+  <li><a id="navprev" href="<?php echo $nav_prev ?>"><?php echo $lang->getPrecedent() ?></a></li>
+  <li><a id="navnext" href="<?php echo $nav_next ?>"><?php echo $lang->getSuivant() ?></a></li>
+  <li><a id="navlast" href="<?php echo $nav_last ?>"><?php echo $lang->getDernier() ?></a></li>
+</ul>
+
+
+<!-- FOOT -->
+<div id="foot">
+  <p><?php echo $lang->getSeeAlso() ?>
+    <ul id="link_bar">
+    <?php foreach ($config->getSeeAlso() as $name => $url) { ?>
+      <li><a href="<?php echo $url ?>"><?php echo $name ?></a></li>
+    <?php } ?>
+    </ul>
+  </p>
+  <p><?php echo $lang->getPropulse() ?> <a href="http://stripit.sourceforge.net/">Strip-it</a>, <?php echo $lang->getDescstrip() ?> (<?php echo $config->getVersion() ?>).</p>
+</div>
+
+</body>
+
+
+</html>

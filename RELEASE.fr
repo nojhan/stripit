@@ -1,3 +1,17 @@
+Version 0.8 beta :
+* reprise totale de l'application afin de la passer en PHP 5 (>= PHP 5.2)
+* les fonctionnalités existante ont été conservées
+* changement du système de cache (basé dorénavant sur des objets serialisés)
+* passage du système de template de PEAR à PHP
+* nouveau parseur XML pour le SVG afin de se passer de PEAR (via DOMDocument)
+* ajout d'une fonctionnalité de navigation via Ajax (l'image, les informations relatives au strip et les commentaires du forum, uniquement, sont rechargés en javascript)
+* un seul template pour le moment (lego)
+
+Version 0.7 :
+* fusion des flux RSS Strips et des annonces forum
+* correction du bug entre le système de commentaires et le cache
+* correction d'un problème d'encodage au niveau du "Word of the day"
+
 Version 0.6 :
 * affichage plus long des commentaires (128 caractères par défaut)
 * un lien vers la page des commentaires sur le forum

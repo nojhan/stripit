@@ -1,0 +1,19 @@
+<?php echo '<?xml version="1.0"?>' ?>
+<root>
+  <item id="png"><![CDATA[<?php echo $strip->getFilenamePng() ?>]]></item>
+  <item id="text"><![CDATA[<?php echo $strip->getText() ?>]]></item>
+  <item id="title"><![CDATA[<?php echo $strip->getTitle() ?>]]></item>
+  <item id="description"><![CDATA[<?php echo $strip->getDescription() ?>]]></item>
+  <item id="comments"><![CDATA[<?php echo $comments ?>]]></item>
+  <item id="author"><![CDATA[<?php echo $strip->getAuthor() ?>]]></item>
+  <item id="date"><![CDATA[<?php echo $strip->getDate() ?>]]></item>
+  <item id="license"><![CDATA[<?php echo $strip->getLicense() ?>]]></item>
+  <item id="source"><![CDATA[<?php echo $strip->getFilenameSrc() ?>]]></item>
+  <item id="navfirst"><![CDATA[<?php echo $nav_first ?>]]></item>
+  <item id="navprev"><![CDATA[<?php echo $nav_prev ?>]]></item>
+  <item id="navnext"><![CDATA[<?php echo $nav_next ?>]]></item>
+  <item id="navlast"><![CDATA[<?php echo $nav_last ?>]]></item>
+  <item id="navgallery"><![CDATA[<?php echo $nav_gallery ?>]]></item>
+  <item id="nav_forum_post"><![CDATA[<?php echo $nav_forum_post ?>]]></item>
+  <item id="nav_forum_view"><![CDATA[<?php echo $nav_forum_view ?>]]></item>
+</root>

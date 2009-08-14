@@ -8,11 +8,11 @@ N:Simon Leblanc
 P:Simon
 E:contact@leblanc-simon.eu
 D:2007-12
-C:internationalisation, limitation items RSS, bugfixes, système de cache
+C:internationalisation, limitation items RSS, bugfixes, système de cache, code initial de la version PHP 5
 
 N:Guillaume Duhamel
 P:Guill
 E:guillaume.duhamel@gmail.com
 D:2008-05
-C:Galerie de vignettes, parseur XML
+C:Galerie de vignettes, parseur XML de la version < 0.8
 
