@@ -1,0 +1,3 @@
+Version 0.1 :
+* première version
+* seul l'import de XML fonctionne

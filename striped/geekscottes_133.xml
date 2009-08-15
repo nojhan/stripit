@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE strip SYSTEM "http://mcmic.free.fr/GeekscottesMaker/strip.dtd">
+
+<strip x="10" y="10" height="225">
+	<case fond="fonds/laptop.svg#layer1" width="307">
+		<personnage url="persos/gnu/vert.svg#layer1" x="0" y="103" pos="gauche">
+			<bulle x="50" y="10" width="155" contour="true">Une fois j'ai eu l'auriculaire cassé</bulle>
+			<bulle x="100" y="60" width="150" contour="true">Bilan : 15 jour d'arret de travail</bulle>
+		</personnage>
+		<personnage url="persos/mozilla/normal.svg#layer1" x="155" y="110" pos="gauche">
+		</personnage>
+	</case>
+	<case fond="fonds/laptop.svg#layer1" width="307">
+		<personnage url="persos/gnu/vert.svg#layer1" x="0" y="103" pos="gauche">
+		</personnage>
+		<personnage url="persos/mozilla/choque.svg#layer1" x="155" y="110" pos="gauche">
+			<bulle x="120" y="40" width="150" contour="true">2 SEMAINES !?</bulle>
+		</personnage>
+	</case>
+	<case fond="fonds/laptop.svg#layer1" width="307">
+		<personnage url="persos/gnu/vert.svg#layer1" x="0" y="103" pos="gauche">
+		</personnage>
+		<personnage url="persos/mozilla/sourcil.svg#layer1" x="155" y="110" pos="gauche">
+			<bulle x="120" y="30" width="150" contour="true">Mais pourquoi tu as repris si tôt ?</bulle>
+		</personnage>
+	</case>
+	<case fond="fonds/laptop.svg#layer1" width="307">
+		<personnage url="persos/gnu/vert_content.svg#layer1" x="0" y="103" pos="gauche">
+			<bulle x="30" y="20" width="200" contour="true">J'en ai profité pour passer sous Vim...</bulle>
+		</personnage>
+		<personnage url="persos/mozilla/goutte.svg#layer1" x="155" y="110" pos="gauche">
+		</personnage>
+	</case>
+</strip>

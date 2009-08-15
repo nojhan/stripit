@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE strip SYSTEM "http://mcmic.free.fr/GeekscottesMaker/strip.dtd">
+
+<strip x="10" y="100" height="480">
+	<case fond="fonds/bureau.svg#layer1" width="600">
+		<personnage url="persos/gnu/rouge.svg#layer1" x="0" y="127" pos="gauche">
+			<bulle x="150" y="10" width="100" contour="true">Texte de la bulle</bulle>
+		</personnage>
+	</case>
+	<case fond="fonds/bureau.svg#layer1" width="600">
+		<personnage url="persos/w3c/face.svg#layer1" x="0" y="100" pos="gauche">
+			<bulle x="150" y="10" width="100" contour="true">Texte de la 2eme bulle</bulle>
+		</personnage>
+		<bulle x="250" y="210" width="200" contour="true">Bulle sans personnage</bulle>
+	</case>
+	<case fond="" width="600">
+		<personnage url="persos/tux/content.svg#layer1" x="0" y="155" pos="gauche">
+			<bulle x="150" y="10" width="100" contour="true">Je kiffe la vie</bulle>
+		</personnage>
+		<personnage url="persos/gnu/rouge.svg#layer1" x="300" y="127" pos="droite">
+			<bulle x="350" y="10" width="100" contour="true">Moi aussi</bulle>
+		</personnage>
+	</case>
+</strip>

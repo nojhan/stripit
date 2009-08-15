@@ -1,0 +1,29 @@
+-- Français -------------------------------------------------------------------------------------------------------------
+
+StripEd est une application web de strip vectoriels.
+
+Fonctionnalités :
+* Affichage d'un strip à partir d'un fichier XML
+* Modification du strip en WYSIWYG	[non developpé]
+* Export du strip au format XML		[non developpé]
+* Export du strip au format SVG		[non developpé]
+
+Contact : mcmic@free.fr
+
+
+1. Utilisation
+
+Charger dans son navigateur GeekscottesMakerV2.svg
+Lui indiquer un fichier xml à charger et voir le résultat.
+
+2. Format XML
+
+La syntaxe XML à utiliser peut se trouver dans le fichier strip.dtd
+Le fichier strip.xml contient un exemple simple et le fichier geekscottes_133.xml contient le fichier XML correspondant
+ à la geekscotte n-°133. (bien entendu le resultat n'est pas encore parfait)
+
+3. Fonctionnement
+
+Striped est entièrement réalisé en SVG/javascript.
+Le strip est geré grâce à un arbre de classes en javascript orienté objet.
+Les releases seront conformes aux normes W3C, mais pour l'instant je me contente de le faire marcher sur Firefox 3.5

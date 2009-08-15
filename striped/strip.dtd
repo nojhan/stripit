@@ -1,0 +1,21 @@
+<!ELEMENT strip (case+)>
+<!ELEMENT case (personnage*, bulle*)>
+<!ELEMENT personnage (bulle*)>
+<!ELEMENT bulle (#PCDATA)>
+
+<!ATTLIST strip x CDATA "0">
+<!ATTLIST strip y CDATA "0">
+<!ATTLIST strip height CDATA "480">
+<!ATTLIST strip licence CDATA #FIXED "CC-BY-SA">
+<!ATTLIST strip author CDATA #IMPLIED>
+<!ATTLIST case fond CDATA #IMPLIED>
+<!ATTLIST case width CDATA "600">
+<!ATTLIST personnage x CDATA "0">
+<!ATTLIST personnage y CDATA "0">
+<!ATTLIST personnage pos CDATA "gauche">
+<!ATTLIST personnage url CDATA #REQUIRED>
+<!ATTLIST bulle x CDATA "0">
+<!ATTLIST bulle y CDATA "0">
+<!ATTLIST bulle width CDATA "200">
+<!ATTLIST bulle contour CDATA "true">
+<!ATTLIST bulle size CDATA "15">
