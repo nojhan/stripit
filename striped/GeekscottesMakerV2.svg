@@ -275,7 +275,7 @@
 	</g>-->
 		<g id="formulaire" transform="translate(0,300)">
 			<switch>
-				<foreignObject width="500" height="300" requiredExtensions="http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+				<foreignObject width="500" height="300">
 					<body xmlns="http://www.w3.org/1999/xhtml">
 						<div>
 							<form method="post" action="javascript:testurl()">
@@ -593,6 +593,7 @@
 				xmlDoc.send("");
 				for(i=0;xmlDoc.responseXML.childNodes[i].nodeType != 1;i++);
 				strip_node = xmlDoc.responseXML.childNodes[i];
+				alert(strip_node.textContent);
 
 				strip = new Strip("strip",strip_node.getAttribute("x"),strip_node.getAttribute("y"),strip_node.getAttribute("height"));
 				num = 0;
