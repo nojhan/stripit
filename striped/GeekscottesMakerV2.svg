@@ -294,6 +294,7 @@
 		<script type="text/javascript">
 		  <![CDATA[
 			const svgNS = "http://www.w3.org/2000/svg";
+			idstrip = 0;
 
 			// Point
 			function Point(x, y) {
@@ -370,22 +371,35 @@
 				this.fond = fond;
 				this.persos = new Array();
 				this.bulles = new Array();
+				//var this.strip;
 				this.alert = function() {
 					alert("Taille: " + this.width + " Num: " + this.num);
 				}
 				this.ajouterPerso = function(perso) {
 					this.persos.push(perso);
+					perso.case = this;
 				}
 				this.ajouterBulle = function(bulle) {
 					this.bulles.push(bulle);
+					bulle.case = this;
 				}
 				this.getNoeud = function(height) {
 					noeud_fond = document.createElementNS(svgNS, "use");
 					noeud_fond.setAttributeNS("http://www.w3.org/1999/xlink","xlink:href", this.fond);
+					noeud_croix = document.createElementNS(svgNS, "path");
+					noeud_croix.setAttribute("d","M 10 10 L 15 15 L 20 10 L 15 15 L 10 20 L 15 15 L 20 20");
+					noeud_croix.setAttribute("style","stroke:#000000;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;");
+					noeud_croix.setAttribute("id","strip-"+this.strip.id+"-case-"+this.num+"-croix");
+					noeud_croix.style.visibility = 'hidden';
+					noeud_croix.strip = this.strip;
+					noeud_croix.setAttribute("onclick","javascript:this.strip.supprimerCase("+this.num+");this.strip.redraw();");
 					noeud_case = document.createElementNS(svgNS, "g");
+					noeud_case.strip = this.strip;
 					noeud_case.appendChild(noeud_fond);
 					noeud_case.setAttribute("id", "case_"+this.num);
 					noeud_case.setAttribute("transform", "translate("+this.num*(this.width+20)+")");// ATTENTION, LES CASES PEUVENT AVOIR DES LARGEURS DIFFÉRENTES
+					noeud_case.setAttribute("onmouseover","javascript:document.getElementById('strip-"+this.strip.id+"-case-"+this.num+"-croix').style.visibility = 'visible'");
+					noeud_case.setAttribute("onmouseout","javascript:document.getElementById('strip-"+this.strip.id+"-case-"+this.num+"-croix').style.visibility = 'hidden'");
 					noeud_cadre = document.createElementNS(svgNS, "rect");
 					noeud_cadre.setAttribute("style","fill: none; stroke: rgb(0, 0, 0); stroke-width: 4;");
 					noeud_cadre.setAttribute("width",this.width);
@@ -408,8 +422,25 @@
 					}
 
 					noeud_case.appendChild(noeud_cadre); // le cadre est par dessus le reste
+					noeud_case.appendChild(noeud_croix);
 
 					return noeud_case;
+				}
+				this.getXML = function(tab) {
+					this.xml = tab+"<case fond=\""+this.fond+"\" width=\""+this.width+"\">\n"
+
+					// AJOUTER LES PERSOS
+					for(this.i=0;(this.i < this.persos.length);this.i++) {
+						this.xml += this.persos[this.i].getXML(tab+"\t");
+					}
+
+					// AJOUTER LES BULLES
+					for(this.i=0;(this.i < this.bulles.length);this.i++) {
+						this.xml += this.bulles[this.i].getXML(tab+"\t");
+					}
+
+					this.xml += tab+"</case>\n";
+					return this.xml;
 				}
 			}
 
@@ -437,6 +468,14 @@
 					if(this.pos == "droite") transform = "translate("+(this.x+250)+","+this.y+") scale(-1,1)"
 					noeud_perso.setAttribute("transform", transform);
 					return noeud_perso;
+				}
+				this.getXML = function(tab) {
+					this.xml = tab+"<personnage url=\""+this.url+"\" x=\""+this.x+"\" y=\""+this.y+"\" pos=\""+this.pos+"\">\n";
+					for(this.i=0;this.i < this.bulles.length;this.i++) {
+						this.xml += this.bulles[this.i].getXML(tab+"\t");
+					}
+					this.xml += tab+"</personnage>\n";
+					return this.xml;
 				}
 			}
 
@@ -484,6 +523,8 @@
 					noeud_path.setAttribute("style", "fill: rgb(255, 255, 255); stroke: rgb(0, 0, 0); stroke-width: 3;");
 					noeud_bulle.appendChild(noeud_path);
 					noeud_bulle.appendChild(noeud_texte);
+					noeud_bulle.setAttribute("onmouseover","javascript:this.childNodes[0].setAttribute(\"style\",\"fill: rgb(255, 255, 255); stroke: red; stroke-width: 3;\");");
+					noeud_bulle.setAttribute("onmouseout","javascript:this.childNodes[0].setAttribute(\"style\",\"fill: rgb(255, 255, 255); stroke: rgb(0, 0, 0); stroke-width: 3;\");");
 					return noeud_bulle;
 				}
 				this.getNoeudTexte = function() {
@@ -543,18 +584,30 @@
 				/*this.getXml = function() { //renvoi un objet XML contenant la bulle
 					noeud_bulle =
 				}*/
+				this.getXML = function(tab) {
+					return tab+"<bulle x=\""+this.x+"\" y=\""+this.y+"\" width=\""+this.w+"\" contour=\""+this.contour+"\">"+this.texte+"</bulle>\n";
+				}
 			}
 
 			//Objet Strip
-			function Strip(id, x, y, height) {
+			function Strip(id, x, y, height, editable) {
 				this.noeud = document.getElementById(id);
+				this.id = idstrip++;
 				this.x = parseInt(x);
 				this.y = parseInt(y);
 				this.height = parseInt(height);
 				this.cases = new Array();
 				this.noeud.setAttribute("transform", "translate("+this.x+","+this.y+")");
+				this.editable = editable;
 				this.ajouterCase = function(c) {
 					this.cases.push(c);
+					c.strip = this;
+				}
+				this.supprimerCase = function(i) {
+					this.cases.splice(i,1);
+					for(var num=i;num<this.cases.length;num++) {
+						this.cases[num].num--;
+					}
 				}
 				this.draw = function() {
 					this.noeud.setAttribute("transform", "translate("+this.x+","+this.y+")");
@@ -562,8 +615,23 @@
 						this.noeud.appendChild(this.cases[this.i].getNoeud(this.height));
 					}
 				}
+				this.clear = function() {
+					while (this.noeud.firstChild) this.noeud.removeChild(this.noeud.firstChild);
+				}
+				this.redraw = function() {
+					this.clear();
+					this.draw();
+				}
 				this.genXML = function() {
 					document.implementation.createDocument("", "strip", null);
+				}
+				this.getXML = function() {
+					this.xml = "<strip x=\""+this.x+"\" y=\""+this.y+"\" height=\""+this.height+"\">\n";
+					for(this.i=0;this.i < this.cases.length;this.i++) {
+						this.xml += this.cases[this.i].getXML("\t");
+					}
+					this.xml += "</strip>\n";
+					return this.xml;
 				}
 			}
 
@@ -575,7 +643,7 @@
 				alert("voilà");
 			}
 
-			strip = new Strip("strip",10,100,480);
+			/*var strip = new Strip("strip",10,100,480,true);
 			case1 = new Case(0,600,"");
 				perso = new Perso("gnu.svg#layer1",0,103,"gauche");
 					bulle = new Bulle(150,10,"coucou les amis",100,20);
@@ -584,7 +652,11 @@
 			case2 = new Case(1,600,"");
 			strip.ajouterCase(case1);
 			strip.ajouterCase(case2);
-			//strip.draw();
+			strip.draw();
+			alert(strip.getXML());
+			strip.supprimerCase(0);
+			strip.clear();
+			strip.draw();*/
 
 			function parseStrip(xmlFile) {
 				var xmlDoc;
@@ -595,7 +667,8 @@
 				strip_node = xmlDoc.responseXML.childNodes[i];
 				alert(strip_node.textContent);
 
-				strip = new Strip("strip",strip_node.getAttribute("x"),strip_node.getAttribute("y"),strip_node.getAttribute("height"));
+				strip = new Strip("strip",strip_node.getAttribute("x"),strip_node.getAttribute("y"),strip_node.getAttribute("height"),true);
+				strip.clear();
 				num = 0;
 				for(i=0;case_node = strip_node.childNodes[i];i++) {
 					if(case_node.nodeName == "case") {
@@ -626,6 +699,15 @@
 			//strip.draw();
 
 			//TODO
+			//ajouter des appels de fonctions permettant de modifier le strip actif (texte des bulles, positions, ...)
+			//ajouter l'interface graphique pour agir sur ces fonctions
+			//penser à ajouter du drag and drop
+
+			//normaliser les id des objets : strip-iddustrip-case-idcase-bulle-idbulle, ...
+			//tout faire pour pouvoir gérer plusieurs strip éditables ou non
+
+
+
 			//flip du perso si demandé => fait mais à améliorer
 			//perso composé => postponed
 			//pouvoir modifier un élément du strip et actualiser l'affichage => replaceChild
