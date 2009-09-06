@@ -14,14 +14,14 @@ class Config
    * @var string
    * @access protected
    */
-  protected static $version            = '0.8b';
+  protected static $version            = '0.8rc1';
   
   /**
    * URL of the website
    * @var string
    * @access protected
    */
-  protected static $url                = 'http://localhost/projects/stripit_php5';
+  protected static $url                = 'http://localhost/stripit';
   
   /**
    * Name of the index page
@@ -42,7 +42,7 @@ class Config
    * @var string
    * @access protected
    */
-  protected static $title              = 'Stripit PHP5';
+  protected static $title              = 'Stripit';
   
   /**
    * Default language of the interface
@@ -169,7 +169,7 @@ class Config
    * @var boolean
    * @access protected
    */
-  protected static $use_fluxbb         = true;
+  protected static $use_fluxbb         = false;
   
   /**
    * FluxBB's forum ID to use for strips comment
@@ -197,7 +197,7 @@ class Config
    * @var string
    * @access protected
    */
-  protected static $fluxbb_forum       = 'http://localhost/projects/fluxbb-1.2.21/upload';
+  protected static $fluxbb_forum       = 'http://forum';
   
   
   /*

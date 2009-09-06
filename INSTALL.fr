@@ -1,12 +1,11 @@
 Configuration nécessaire :
-* serveur web avec support PHP
+* serveur web avec support PHP >= 5.2
 
 Installation :
 * copier les fichiers dans le répertoire souhaité
-* copier le fichier "configuration-dist.php" comme "configuration.php"
-* éditez le fichier "configuration.php", selon vos besoins
-* donnez les droits en écritures pour tous au répertoire "cache/"
-* donnez les droits en écritures pour tous aux répertoire "cache/" dans les répertoires contenu dans "template/"
+* copier le fichier "inc/config/config-dist.php" comme "inc/config/config.php"
+* éditez le fichier "inc/config/config.php", selon vos besoins
+* donnez les droits en écriture pour tous (ou au moins pour l'utilisateur d'apache) au répertoire "cache/"
 
 Utilisation :
 * Chaque strip est représenté par un fichier SVG et son export en PNG.
@@ -14,7 +13,7 @@ Utilisation :
 * Pour un bon fonctionnement (affichage du titre, date, commentaires, etc.) chaque fichier SVG doit contenir des métadonnées au format RDF (dans Inkscape, Fichier > métadonnées).
 * Déposez ces deux fichiers dans le répertoire "strips/"
 
-Installation des patchs pour punBB (gestion des commentaires):
-* copier "punbb-1.2.15_extern.php", "punbb-1.2.15_post.php" et "punbb-1.2.15_redirect_stripit.php" à la racine du répertoire où est installé punBB
-* supprimer les chaînes "punbb-1.2.15_" des noms de fichier
+Installation des patchs pour FluxBB (gestion des commentaires):
+* copier "fluxbb-1.2.21_extern.php", "fluxbb-1.2.21_post.php" et "fluxbb-1.2.21_redirect_stripit.php" à la racine du répertoire où est installé FluxBB
+* supprimer les chaînes "fluxbb-1.2.21_" des noms de fichier
 

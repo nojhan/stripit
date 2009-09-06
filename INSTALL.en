@@ -1,12 +1,11 @@
 Configuration:
-* web server with PHP support
+* web server with PHP >= 5.2 support
 
 Installation:
 * copy all the files in the appropriated directory
-* copy the "configuration-dist.php" as "configuration.php"
-* edit the" configuration.php" file, according to your needs
-* give the write permissions for everyone to the "cache/" directory
-* give the same rights to the "cache/" directories, in the "template/" directory.
+* copy the "inc/config/config-dist.php" as "inc/config/config.php"
+* edit the "inc/config/config.php" file, according to your needs
+* give the write permissions for everyone (or at least to the user of apache) to the "cache/" directory
 
 Using:
 * Each strip is represented by a SVG file and its PNG export
@@ -14,7 +13,7 @@ Using:
 * For correct operations (display of the title, date, comments, ...), each SVG file must have RDF metadata (using Inkscape: File > metadata).
 * Put these 2 files in the "strips" directory.
 
-Installation of patchs for punBB (for comments management):
-* copy "punbb-1.2.15_extern.php", "punbb-1.2.15_post.php" and "punbb-1.2.15_redirect_stripit.php" at the root directory of the punBB installation
-* delete the strings "punbb-1.2.15_" in the filenames
+Installation of patchs for FluxBB (for comments management):
+* copy "fluxbb-1.2.21_extern.php", "fluxbb-1.2.21_post.php" and "fluxbb-1.2.21_redirect_stripit.php" at the root directory of the FluxBB installation
+* delete the strings "fluxbb-1.2.21_" in the filenames
 
