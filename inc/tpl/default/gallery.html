@@ -1,0 +1,52 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" lang="fr">
+  <head>
+    
+    <title><?php echo $config->getTitle() ?></title>
+  
+    <meta http-equiv="Content-Type" content="text/HTML; charset=utf-8"  />
+    <meta name=" robot" content="follow, index, all" />
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="rss.php" />
+    <link rel="alternate" type="application/rss+xml" title="RSS: 10 items" href="rss.php?limit=10" />
+    <link rel="stylesheet" type="text/css" href="<?php echo $config->getTemplateFolder() ?>/<?php echo $config->getTemplateName() ?>/style.css" />
+    <link rel="icon" type="image/png" href="favicon.png" />
+    
+  </head>
+  <body>
+    <div class="shadow_simple">
+      <div id="navbar">
+        <div id="site_title"><p id="site_head"><?php echo $config->getTitle() ?></p><p id="site_desc"><?php echo $config->getDescription() ?></p></div>
+        
+        <div id="main"><a href=".."><?php echo $lang->getAccueil() ?></a> <br/> <a id="feed" href="rss.php"><?php echo $lang->getRss() ?></a> <a id="feed" href="rss.php?limit=10">10</a> <br/><a href="mailto:<?php echo $config->getEmail() ?>"><?php echo $lang->getContact() ?></a></div>
+        
+        <a id="t_navfirst" class="navfirst" href="<?php echo $nav_first ?>"><?php echo $lang->getPremier() ?></a>
+        <a id="t_navprev" class="navprev" href="<?php echo $nav_prev ?>"><?php echo $lang->getPrecedent() ?></a>
+        <a id="t_navnext" class="navnext" href="<?php echo $nav_next ?>"><?php echo $lang->getSuivant() ?></a>
+        <a id="t_navlast" class="navlast" href="<?php echo $nav_last ?>"><?php echo $lang->getDernier() ?></a>
+      </div>
+    </div>
+    
+    <div class="centering">
+      <?php foreach ($list as $id => $strip) { ?>
+      <div class="shadow">
+        <a href="<?php echo $nav_img.$id ?>">
+          <img class="stripbox" src="<?php echo $strip->getThumbSrc() ?>" title="<?php echo $strip->getTitle() ?>" style="width:<?php echo $config->getThumbSize() ?>px;" />
+        </a>
+      </div>
+      <?php } ?>
+    </div>
+    
+    <div id="footbar">
+      <p id="forum"><a href="<?php echo $config->getFluxbbForum() ?>"><?php echo $lang->getForum() ?></a></p>
+      <p id="shop_infos"><a href="<?php echo $config->getShop() ?>"><?php echo $lang->getBoutique() ?> <?php echo $config->getTitle() ?></a> <?php echo $lang->getTeeshirt() ?>.</p>
+      <?php echo $lang->getSeeAlso() ?>
+      <ul id="linkbar">
+        <?php foreach ($config->getSeeAlso() as $name => $url) { ?>
+        <li><a href="<?php echo $url ?>"><?php echo $name ?></a></li>
+        <?php } ?>
+      </ul>
+      <p><?php echo $lang->getPropulse() ?> <a href="http://stripit.sourceforge.net/">Strip-It</a>, <?php echo $lang->getDescstrip() ?> (<?php echo $config->getVersion() ?>).</p>
+    </div>
+  
+  </body>
+</html>

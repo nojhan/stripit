@@ -74,23 +74,33 @@ function getStrip(link)
             break;
           case 'navfirst':
             document.getElementById('t_navfirst').href = value;
-            document.getElementById('b_navfirst').href = value;
+            try {
+              document.getElementById('b_navfirst').href = value;
+            } catch (e) {}
             break;
           case 'navprev':
             document.getElementById('t_navprev').href = value;
-            document.getElementById('b_navprev').href = value;
+            try {
+              document.getElementById('b_navprev').href = value;
+            } catch (e) {}
             break;
           case 'navnext':
             document.getElementById('t_navnext').href = value;
-            document.getElementById('b_navnext').href = value;
+            try {
+              document.getElementById('b_navnext').href = value;
+            } catch (e) {}
             break;
           case 'navlast':
             document.getElementById('t_navlast').href = value;
-            document.getElementById('b_navlast').href = value;
+            try {
+              document.getElementById('b_navlast').href = value;
+            } catch (e) {}
             break;
           case 'navgallery':
             document.getElementById('t_navgallery').href = value;
-            document.getElementById('b_navgallery').href = value;
+            try {
+              document.getElementById('b_navgallery').href = value;
+            } catch (e) {}
             break;
           case 'nav_forum_post':
             document.getElementById('nav_forum_post').href = value;
@@ -108,7 +118,7 @@ function getStrip(link)
 }
 
 /**
- * Fonction permettant de rÃ©cupÃ¨rer la valeur d'un noeud XML quelque soit le navigateur
+ * Fonction permettant de récupérer la valeur d'un noeud XML quelque soit le navigateur
  *
  * @param   DOM Object    node      Le noeud sur lequel on travaille
  */
@@ -118,7 +128,7 @@ function getNodeValue(node)
   
   return_value = node.textContent;
   if(return_value == undefined){
-    // On a Ã  faire Ã  un IE, donc on fait le boulot de Microsoft : on le debugge
+    // On a à faire à un IE, donc on fait le boulot de Microsoft : on le debugge
     return_value = node.firstChild.nodeValue;
   }
   
