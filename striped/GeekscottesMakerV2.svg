@@ -445,8 +445,8 @@
 					noeud_outils.appendChild(noeud_sauver);
 
 					this.noeud.appendChild(noeud_outils);
-					this.noeud.setAttribute("onmouseover","javascript:this.noeud_outils.style.visibility = 'visible';this.noeud_fond.setAttribute('opacity',100)");
-					this.noeud.setAttribute("onmouseout","javascript:this.noeud_outils.style.visibility = 'hidden';this.noeud_fond.setAttribute('opacity',0)");
+					this.noeud.setAttribute("onmouseover","javascript:if(this.in!='in') { this.noeud_outils.style.visibility = 'visible';this.noeud_fond.setAttribute('opacity',100);this.in='in'}");
+					this.noeud.setAttribute("onmouseout","javascript:this.noeud_outils.style.visibility = 'hidden';this.noeud_fond.setAttribute('opacity',0);this.in='out'");
 					this.noeud.noeud_outils = noeud_outils;
 					this.noeud.noeud_fond = noeud_fond;
 				}
