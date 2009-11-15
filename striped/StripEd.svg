@@ -12,6 +12,26 @@
 	id="svg">
 	<title>Geekscottes maker ALPHA</title>
 	<defs id="defs">
+	    <style type="text/css">
+			<![CDATA[
+				.strip .fond {
+					fill:rgb(202,225,232);
+					stroke-width:10;
+					stroke:rgb(151,176,183);
+					visibility:hidden;
+				}
+				.strip:hover .fond {
+					visibility:visible;
+				}
+				.strip .outils {
+					visibility:hidden;
+				}
+				.strip:hover .outils {
+					visibility:visible;
+				}
+			]]>
+		</style>
+
 		<!--
 		TODO
 		defs :
@@ -65,8 +85,10 @@
 									<input type="submit" value="Ouvrir"/>
 								</fieldset>
 								<fieldset>
-								<legend>Code XML du strip</legend>
-									<textarea id="xml_area" rows="15" cols="130">code</textarea>
+								<legend>Code XML</legend>
+									<label for="xml_area">nom</label>
+									<textarea id="xml_area" name="xml_area" rows="15" cols="130">code</textarea>
+									<input type="button" value="Envoyer"/>
 								</fieldset>
 							</form>
 						</div>
@@ -180,6 +202,7 @@
 					//noeud_case.strip = this.strip;
 					noeud_case.appendChild(noeud_fond);
 					noeud_case.setAttribute("id", "strip-"+this.strip.id+"-case-"+this.num);
+					noeud_case.setAttribute("class", "case");
 					noeud_case.setAttribute("transform", "translate("+left+")");
 					noeud_case.croix = noeud_croix;
 					noeud_case.setAttribute("onmouseover","javascript:this.croix.style.visibility = 'visible'");
@@ -408,10 +431,10 @@
 					noeud_fond.setAttribute("height",this.height+40);
 					this.noeud.appendChild(noeud_fond);
 					this.fond = noeud_fond;
-					noeud_fond.setAttribute("style","fill:rgb(202,225,232);stroke-width:10;stroke:rgb(151,176,183)");
+					//noeud_fond.setAttribute("style","fill:rgb(202,225,232);stroke-width:10;stroke:rgb(151,176,183)");
 					noeud_fond.setAttribute("x",-10);
 					noeud_fond.setAttribute("y",-10);
-					noeud_fond.setAttribute("opacity",0);
+					//noeud_fond.setAttribute("opacity",0);
 
 					for(this.i=0;this.i < this.cases.length;this.i++) {
 						this.noeud.appendChild(this.cases[this.i].getNoeud(this.height,x));
@@ -438,17 +461,18 @@
 					noeud_sauver.setAttribute("transform","translate(30)");
 					noeud_sauver.strip = this;
 
-					noeud_outils.style.visibility = 'hidden';
-
 					noeud_outils.appendChild(noeud_clear);
 					noeud_outils.appendChild(noeud_actualiser);
 					noeud_outils.appendChild(noeud_sauver);
 
 					this.noeud.appendChild(noeud_outils);
-					this.noeud.setAttribute("onmouseover","javascript:if(this.in!='in') { this.noeud_outils.style.visibility = 'visible';this.noeud_fond.setAttribute('opacity',100);this.in='in'}");
-					this.noeud.setAttribute("onmouseout","javascript:this.noeud_outils.style.visibility = 'hidden';this.noeud_fond.setAttribute('opacity',0);this.in='out'");
+					//this.noeud.setAttribute("onmouseover","javascript:if(this.in!='in') { this.noeud_outils.style.visibility = 'visible';this.noeud_fond.setAttribute('opacity',100);this.in='in'}");
+					//this.noeud.setAttribute("onmouseout","javascript:this.noeud_outils.style.visibility = 'hidden';this.noeud_fond.setAttribute('opacity',0);this.in='out'");
 					this.noeud.noeud_outils = noeud_outils;
 					this.noeud.noeud_fond = noeud_fond;
+					this.noeud.setAttribute("class","strip");
+					noeud_fond.setAttribute("class","fond");
+					noeud_outils.setAttribute("class","outils");
 				}
 				this.clear = function() {
 					while (this.noeud.firstChild) this.noeud.removeChild(this.noeud.firstChild);
