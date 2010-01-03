@@ -114,7 +114,7 @@ class Strip
     
     // The license
     $license = $this->searchDomItem($dom, $ns_cc, 'license', true, $ns_rdf, 'resource');
-    if ($licence === null) {
+    if ($license === null) {
       $license = $this->searchDomItem($dom, $ns_oldcc, 'license', true, $ns_rdf, 'resource');
     }
     $this->setLicense($license);
