@@ -24,12 +24,18 @@ $cache = Cache::getCache();
 // Obtain the id asked
 $last = Cache::getLastId();
 
-if (isset($_GET['id']) === true && is_numeric($id) === true) {
+// Check if the id is valid, else use the last one
+if (isset($_GET['id']) === true) { // is asked
   $id = $_GET['id'];
-  
-  if ($id > $last || $id < 0) {
+
+  if( is_numeric($id) === true) { // is numeric
+    if ($id > $last || $id < 0) { // is in bounds
+      $id = $last;
+    }
+  } else {
     $id = $last;
   }
+
 } else {
   $id = $last;
 }
