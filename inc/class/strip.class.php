@@ -99,7 +99,6 @@ class Strip
    * Parse the SVG file and call the setter of the object
    *
    * @access protected
-   * @todo look for resolv the problem with the namespace which change with Inkscape
    */
   protected function parse()
   {

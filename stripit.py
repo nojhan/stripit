@@ -153,17 +153,17 @@ class Options:
 	def print_usage(self):
 		print self.usage
 		
-	        for o in self.options:
+		for o in self.options:
 			fs = "\t-%s, --%s\t\t%s"
 			# si pas un flag, indique qu'il faut un paramètre
 			if not self.options[o]['flag']:
 				fs = "\t-%s, --%s\t=VAL\t%s"
-	                print fs % ( self.options[o]['short'], self.options[o]['long'], self.options[o]['description'] )
+			print fs % ( self.options[o]['short'], self.options[o]['long'], self.options[o]['description'] )
 
 	def print_state(self):
 		print "Options settings:"
 		for o in self.options:	
-	                print "\t%s='%s' (%s)" % ( self.options[o]['long'], self.options[o]['value'], self.options[o]['origin'] )
+			print "\t%s='%s' (%s)" % ( self.options[o]['long'], self.options[o]['value'], self.options[o]['origin'] )
 
 	def get( self, long ):
 		return self.options[long]['value']
@@ -451,5 +451,5 @@ if __name__=="__main__":
 				oo.get('user'), 
 				oo.get('dir'), 
 				oo.get('pass')
-			 )
+			)
 

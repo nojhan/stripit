@@ -45,68 +45,60 @@ function getStrip(link)
         value = getNodeValue(item[i]);
         switch (id) {
           case 'png':
-            document.getElementById('strip').src = value;
+            if (idExist('strip')) document.getElementById('strip').src = value;
             break;
           case 'text':
-            document.getElementById('strip').alt = value;
+            if (idExist('strip')) document.getElementById('strip').alt = value;
             break;
           case 'title':
-            document.getElementById('title').innerHTML = '&laquo;&nbsp;' + value + '&nbsp;&raquo;';
+            if (idExist('title')) document.getElementById('title').innerHTML = '&laquo;&nbsp;' + value + '&nbsp;&raquo;';
             break;
           case 'description':
-            document.getElementById('description').innerHTML = value;
+            if (idExist('description')) document.getElementById('description').innerHTML = value;
             break;
           case 'comments':
-            document.getElementById('comments').innerHTML = value;
+            if (idExist('comments')) document.getElementById('comments').innerHTML = value;
             break;
           case 'author':
-            document.getElementById('author').innerHTML = '&copy; ' + value;
+            if (idExist('author')) document.getElementById('author').innerHTML = '&copy; ' + value;
             break;
           case 'date':
-            document.getElementById('date').innerHTML = value;
+            if (idExist('date')) document.getElementById('date').innerHTML = value;
             break;
           case 'license':
-            document.getElementById('link_license').innerHTML = value;
-            document.getElementById('link_license').href = value;
+            if (idExist('link_license')) {
+              document.getElementById('link_license').innerHTML = value;
+              document.getElementById('link_license').href = value;
+            }
             break;
           case 'source':
-            document.getElementById('link_source').href = value;
+            if (idExist('link_source')) document.getElementById('link_source').href = value;
             break;
           case 'navfirst':
-            document.getElementById('t_navfirst').href = value;
-            try {
-              document.getElementById('b_navfirst').href = value;
-            } catch (e) {}
+            if (idExist('t_navfirst')) document.getElementById('t_navfirst').href = value;
+            if (idExist('b_navfirst')) document.getElementById('b_navfirst').href = value;
             break;
           case 'navprev':
-            document.getElementById('t_navprev').href = value;
-            try {
-              document.getElementById('b_navprev').href = value;
-            } catch (e) {}
+            if (idExist('t_navprev')) document.getElementById('t_navprev').href = value;
+            if (idExist('b_navprev')) document.getElementById('b_navprev').href = value;
             break;
           case 'navnext':
-            document.getElementById('t_navnext').href = value;
-            try {
-              document.getElementById('b_navnext').href = value;
-            } catch (e) {}
+            if (idExist('t_navnext')) document.getElementById('t_navnext').href = value;
+            if (idExist('b_navnext')) document.getElementById('b_navnext').href = value;
             break;
           case 'navlast':
-            document.getElementById('t_navlast').href = value;
-            try {
-              document.getElementById('b_navlast').href = value;
-            } catch (e) {}
+            if (idExist('t_navlast')) document.getElementById('t_navlast').href = value;
+            if (idExist('b_navlast')) document.getElementById('b_navlast').href = value;
             break;
           case 'navgallery':
-            document.getElementById('t_navgallery').href = value;
-            try {
-              document.getElementById('b_navgallery').href = value;
-            } catch (e) {}
+            if (idExist('t_navgallery')) document.getElementById('t_navgallery').href = value;
+            if (idExist('b_navgallery')) document.getElementById('b_navgallery').href = value;
             break;
           case 'nav_forum_post':
-            document.getElementById('nav_forum_post').href = value;
+            if (idExist('nav_forum_post')) document.getElementById('nav_forum_post').href = value;
             break;
           case 'nav_forum_view':
-            document.getElementById('nav_forum_view').href = value;
+            if (idExist('nav_forum_view')) document.getElementById('nav_forum_view').href = value;
             break;
         }
       }
@@ -133,4 +125,20 @@ function getNodeValue(node)
   }
   
   return return_value;
+}
+
+
+/**
+ * Vérifie l'existance d'un élément identifié par un identifiant
+ *
+ * @param   string   id   L'identifiant à vérifier
+ * @return  bool          Vrai si l'élément existe, Faux sinon
+ */
+function idExist(id)
+{
+  if (document.getElementById(id)) {
+    return true;
+  } else {
+    return false;
+  }
 }
