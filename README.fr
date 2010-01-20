@@ -15,8 +15,8 @@ Contact : nojhan@gmail.com
 1. Installation
 
 * copiez les fichiers dans le répertoire de votre choix sur le serveur
-* renommez le fichier 'configuration-dist.php' en 'configuration.php'
-* éditez le fichier 'configuration.php' avec les valeurs de votre choix
+* renommez le fichier 'inc/config/config-dist.php' en 'inc/config/config.php'
+* éditez le fichier 'inc/config/config.php' avec les valeurs de votre choix
 
 
 2. Utilisation

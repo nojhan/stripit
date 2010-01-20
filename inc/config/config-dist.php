@@ -14,7 +14,7 @@ class Config
    * @var string
    * @access protected
    */
-  protected static $version            = '0.8rc1';
+  protected static $version            = '0.8rc2';
   
   /**
    * URL of the website

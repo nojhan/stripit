@@ -9,7 +9,7 @@ Installation :
 
 Utilisation :
 * Chaque strip est représenté par un fichier SVG et son export en PNG.
-	* vous pouvez produire le PNG avec le script "stripit.py", si vous avez Inkscape et python installés sur votre système
+* vous pouvez produire le PNG avec le script "stripit.py", si vous avez Inkscape et python installés sur votre système
 * Pour un bon fonctionnement (affichage du titre, date, commentaires, etc.) chaque fichier SVG doit contenir des métadonnées au format RDF (dans Inkscape, Fichier > métadonnées).
 * Déposez ces deux fichiers dans le répertoire "strips/"
 

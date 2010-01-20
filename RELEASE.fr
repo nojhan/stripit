@@ -1,3 +1,14 @@
+Version 0.8 rc2 :
+* bugfix : récupération de la licence
+* bugfix : mauvaise récupération de l'identifiant du strip
+* bugfix : erreur javascript lors de la navigation
+* bugfix : non mise à jour du titre de la page
+* ajout d'une url permanente
+
+Version 0.8 rc1 :
+* ajout du template default
+* modification de valeurs par défaut du fichier de configuration
+
 Version 0.8 beta :
 * reprise totale de l'application afin de la passer en PHP 5 (>= PHP 5.2)
 * les fonctionnalités existante ont été conservées
