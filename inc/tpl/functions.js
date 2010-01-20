@@ -52,6 +52,7 @@ function getStrip(link)
             break;
           case 'title':
             if (idExist('title')) document.getElementById('title').innerHTML = '&laquo;&nbsp;' + value + '&nbsp;&raquo;';
+            document.title = value;
             break;
           case 'description':
             if (idExist('description')) document.getElementById('description').innerHTML = value;
@@ -99,6 +100,9 @@ function getStrip(link)
             break;
           case 'nav_forum_view':
             if (idExist('nav_forum_view')) document.getElementById('nav_forum_view').href = value;
+            break;
+          case 'permanent':
+            if (idExist('permanent')) document.getElementById('permanent').innerHTML = value;
             break;
         }
       }

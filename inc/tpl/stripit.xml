@@ -16,4 +16,5 @@
   <item id="navgallery"><![CDATA[<?php echo $nav_gallery ?>]]></item>
   <item id="nav_forum_post"><![CDATA[<?php echo $nav_forum_post ?>]]></item>
   <item id="nav_forum_view"><![CDATA[<?php echo $nav_forum_view ?>]]></item>
+  <item id="permanent"><![CDATA[<?php echo $permanent_link ?>]]></item>
 </root>

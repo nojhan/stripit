@@ -26,6 +26,7 @@ class Lang extends AbstractLang
     $this->contact      = "Contact";
     $this->rss          = "RSS";
     $this->licence      = "License";
+    $this->permanent_link = "Permanent link";
     $this->boutique     = "Shop";
     $this->teeshirt     = "(t-shirts & gifts)";
     $this->propulse     = "Powered by";

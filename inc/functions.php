@@ -82,6 +82,25 @@ function getNavigation($id, $last, Lang $lang)
 
 
 /**
+ * Return the permanent link for the strip
+ *
+ * @param integer $id The id of the actual strip
+ * @param Lang $lang The Lang object use for the actual user
+ * @return string The permanent link for the actual strip
+ */
+function getPermanentLink($id, Lang $lang)
+{
+  $url = Config::getUrl().'/'.Config::getIndex().'?id=';
+  $nav_lang = '';
+  if (isset($_GET['lang'])) {
+    $nav_lang = '&lang='.$lang;
+  }
+  
+  return $url.$id.$nav_lang;
+}
+
+
+/**
  * Return an array with all navigation link
  *
  * @param integer $page The actual page number of the gallery

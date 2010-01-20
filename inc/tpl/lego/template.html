@@ -85,6 +85,7 @@
         <p id="date"><?php echo $strip->getDate() ?></p>
         <p id="source"><a id="link_source" href="<?php echo $strip->getFilenameSrc() ?>"><?php echo $lang->getSource() ?></a></p>
         <p id="license"><?php echo $lang->getLicence() ?> : <a id="link_license" href="<?php echo $strip->getLicense() ?>"><?php echo $strip->getLicense() ?></a></p>
+        <p><?php echo $lang->getPermanentLink() ?> : <span id="permanent"><?php echo $permanent_link ?></span></p>
     </td>
   </tr>
 

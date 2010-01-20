@@ -55,6 +55,7 @@ $lang = getLang($lang);
 list($nav_first, $nav_last, $nav_prev, $nav_next, $nav_gallery) = getNavigation($id, $last, $lang);
 $nav_forum_post = Config::getFluxbbForum().'/post.php?ttitle='.urlencode($strip->getTitle()).'&fid='.Config::getFluxbbForumId();
 $nav_forum_view = Config::getFluxbbForum().'/redirect_stripit.php?ttitle='.urlencode($strip->getTitle());
+$permanent_link = htmlentities(getPermanentLink($id, $lang));
 
 // If necessary, obtain the forum data
 $comments = '';

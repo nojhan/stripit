@@ -25,6 +25,7 @@ abstract class AbstractLang
   protected $contact      = "Contact";
   protected $rss          = "RSS";
   protected $licence      = "Licence";
+  protected $permanent_link = "Lien permanent";
   protected $boutique     = "Boutique";
   protected $teeshirt     = "(t-shirts & cadeaux)";
   protected $propulse     = "Propulsé par";
@@ -58,6 +59,7 @@ abstract class AbstractLang
   public function getContact() { return $this->contact; }
   public function getRss() { return $this->rss; }
   public function getLicence() { return $this->licence; }
+  public function getPermanentLink() { return $this->permanent_link; }
   public function getBoutique() { return $this->boutique; }
   public function getTeeshirt() { return $this->teeshirt; }
   public function getPropulse() { return $this->propulse; }
