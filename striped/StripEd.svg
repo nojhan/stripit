@@ -302,8 +302,33 @@
 				this.size = parseInt(size);
 				this.h = 100;
 				this.texte = texte;
+				this.graphic_node = document.createElementNS(svgNS, "g");
+				this.noeud = this.graphic_node;
+				this.path = document.createElementNS(svgNS, "path");
+				this.graphic_node.appendChild(this.path);
+				this.graphic_node.setAttribute("onmouseover","javascript:this.childNodes[0].setAttribute(\"style\",\"fill: rgb(255, 255, 255); stroke: red; stroke-width: 3;\");");
+				this.graphic_node.setAttribute("onmouseout","javascript:this.childNodes[0].setAttribute(\"style\",\"fill: rgb(255, 255, 255); stroke: rgb(0, 0, 0); stroke-width: 3;\");");
+				this.graphic_node.setAttribute("onclick","javascript:this.bulle.editForm();");
+				this.graphic_node.bulle = this;
+				this.path.setAttribute("style", "fill: rgb(255, 255, 255); stroke: rgb(0, 0, 0); stroke-width: 3;");
+				this.edit_node = document.createElementNS(svgNS, "switch");
+				var foreign = document.createElement("foreignObject");// why this make a "foreignobject" instead of "foreignObject" ??
+				foreign.setAttribute('width',this.w);
+				foreign.setAttribute('height',this.h);
+				this.edit_node.appendChild(foreign);
+				var body = document.createElement("body");
+				body.setAttribute('xmlns',"http://www.w3.org/1999/xhtml");
+				foreign.appendChild(body);
+				var form = document.createElement("form");
+				body.appendChild(form);
+				var area = document.createElement("textarea");
+				area.setAttribute("style","background:none;border:1px dashed gray;width:"+(this.w-20)+"px;");
+				area.setAttribute("name","area");
+				area.setAttribute("onblur","javascript:alert('this');this.node.submitForm();");
+				area.node = this;// pourquoi ça ne permet pas de faire this.node dans le onblur?
+				form.appendChild(area);
 				this.actuPath = function() {
-					this.path = new Curve([
+					this.path.setAttribute("d", new Curve([
 											PM((this.x+20),this.y),
 											PL((this.x+this.w-20),this.y), //haut de la bulle
 											PQ((this.x+this.w),this.y,(this.x+this.w),(this.y+20)),
@@ -313,7 +338,7 @@
 											PQ(this.x,(this.y+this.h),this.x,(this.y+this.h-20)),
 											PL(this.x,(this.y+20)), //gauche de la bulle
 											PQ(this.x,this.y,(this.x+20),this.y)
-											], true);
+											], true) );
 				}
 				this.alert = function() {
 					alert("Position: " + this.x + ", " + this.y + " Texte: " + this.texte);
@@ -321,18 +346,25 @@
 				/*this.delier = function() {
 					this.perso = null;
 				}*/
-				this.getNoeud = function() {
-					noeud_bulle = document.createElementNS(svgNS, "g");
-					noeud_texte = this.getNoeudTexte();
-					noeud_path = document.createElementNS(svgNS, "path");
+				this.editForm = function() {
+					this.graphic_node.setAttribute("onclick","");
+					this.edit_node.setAttribute('transform','translate('+this.x+','+this.y+')');
+					this.edit_node.childNodes[0].setAttribute('height',this.h);
+					this.noeud.replaceChild(this.edit_node,this.noeud.childNodes[1]);
+				}
+				this.submitForm = function() {
+				alert('submit');
+					this.texte = this.edit_node.childNodes[0].area.value;
+					this.refreshNoeud();
+				}
+				this.refreshNoeud = function() {
+					//this.noeud.appendChild(this.getNoeudTexte());
+					this.noeud.childNodes[1] = this.getNoeudTexte();
 					this.actuPath();
-					noeud_path.setAttribute("d", this.path.toString());
-					noeud_path.setAttribute("style", "fill: rgb(255, 255, 255); stroke: rgb(0, 0, 0); stroke-width: 3;");
-					noeud_bulle.appendChild(noeud_path);
-					noeud_bulle.appendChild(noeud_texte);
-					noeud_bulle.setAttribute("onmouseover","javascript:this.childNodes[0].setAttribute(\"style\",\"fill: rgb(255, 255, 255); stroke: red; stroke-width: 3;\");");
-					noeud_bulle.setAttribute("onmouseout","javascript:this.childNodes[0].setAttribute(\"style\",\"fill: rgb(255, 255, 255); stroke: rgb(0, 0, 0); stroke-width: 3;\");");
-					return noeud_bulle;
+					return this.noeud;
+				}
+				this.getNoeud = function() {
+					return this.noeud;
 				}
 				this.getNoeudTexte = function() {
 					const espace_ligne = 20;
@@ -387,7 +419,8 @@
 					this.h = espace_ligne * (num_ligne);
 					return noeud_texte;
 				}
-				this.actuPath();
+				this.noeud.appendChild(this.getNoeudTexte());
+				this.refreshNoeud();
 				/*this.getXml = function() { //renvoi un objet XML contenant la bulle
 					noeud_bulle =
 				}*/
@@ -448,16 +481,19 @@
 					var noeud_clear = document.createElementNS(svgNS, "use");
 					noeud_clear.setAttributeNS("http://www.w3.org/1999/xlink","xlink:href", "#croix");
 					noeud_clear.setAttribute("onclick","javascript:this.strip.clear();");
+					noeud_clear.setAttribute("title","supprimer");
 					noeud_clear.setAttribute("transform","translate(-10,-10)");
 					noeud_clear.strip = this;
 					var noeud_actualiser = document.createElementNS(svgNS, "use");
 					noeud_actualiser.setAttributeNS("http://www.w3.org/1999/xlink","xlink:href", "#actualiser");
 					noeud_actualiser.setAttribute("onclick","javascript:this.strip.redraw();");
+					noeud_actualiser.setAttribute("title","actualiser");
 					noeud_actualiser.setAttribute("transform","translate(15)");
 					noeud_actualiser.strip = this;
 					var noeud_sauver = document.createElementNS(svgNS, "use");
 					noeud_sauver.setAttributeNS("http://www.w3.org/1999/xlink","xlink:href", "#sauver");
 					noeud_sauver.setAttribute("onclick","javascript:document.getElementById('xml_area').value = this.strip.getXML();");
+					noeud_sauver.setAttribute("title","sauver");
 					noeud_sauver.setAttribute("transform","translate(30)");
 					noeud_sauver.strip = this;
 
@@ -479,6 +515,7 @@
 				}
 				this.redraw = function() {
 					this.clear();
+					alert('redrawing');
 					this.draw();
 				}
 				this.genXML = function() {
@@ -559,6 +596,7 @@
 
 			//TODO
 			//ajouter des appels de fonctions permettant de modifier le strip actif (texte des bulles, positions, ...)
+				//pouvoir modifier un élément du strip et actualiser l'affichage => replaceChild
 			//ajouter l'interface graphique pour agir sur ces fonctions
 			//penser à ajouter du drag and drop
 
@@ -569,15 +607,9 @@
 
 			//flip du perso si demandé => fait mais à améliorer
 			//perso composé => postponed
-			//pouvoir modifier un élément du strip et actualiser l'affichage => replaceChild
-			//faire des fonctions générant un fichier xml
+			//faire des fonctions générant un fichier xml => DONE
 			//avoir des valeurs par défaut pour certains arguments (coté xml => à tester => NE MARCHE PAS) + coté javascript, placement des bulles et des persos
 			//faire un DTD pour le xml => DONE
-
-			//faire l'éditeur :
-			//ajouter du cliquer glisser
-			//ajouter/éditer bulles et perso
-
 
 		  ]]>
 		</script>
