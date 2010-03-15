@@ -100,6 +100,63 @@
 		<script type="text/javascript">
 		  <![CDATA[
 			const svgNS = "http://www.w3.org/2000/svg";
+			const xlinkns = "http://www.w3.org/1999/xlink";
+			const xhtmlns = "http://www.w3.org/1999/xhtml";
+			var root = document.documentElement;
+			
+			
+			/* Extends Element functionality to add insertElement method */
+			Element.prototype.constructElementNS = function( namespace, elementName, attributeObj ) {
+			  var el = document.createElementNS( namespace, elementName );
+			  for ( var attr in attributeObj )
+			  {
+				var attrValue = attributeObj[ attr ];
+				if ("object" == typeof attrValue) {
+				  el.setAttributeNS( attrValue[0], attr, attrValue[1] );
+				}
+				else {
+				  el.setAttribute( attr, attrValue );
+				}
+			  }
+
+			  return el;
+			}
+
+			Element.prototype.constructElement = function( elementName, attributeObj ) {
+			  var el = this.constructElementNS( this.namespaceURI, elementName, attributeObj );     
+			  return el;
+			}
+
+			Element.prototype.insertElementNS = function( namespace, elementName, attributeObj, index ) {
+			  var el = this.constructElementNS( namespace, elementName, attributeObj );     
+
+			  // insert child at requested index, or as last child if index is too high or no index is specified
+			  if ( null == index ) {
+				this.appendChild( el );
+			  }
+			  else {
+				var targetIndex = index + 1;
+				if ( 0 == index ) {
+				  targetIndex = 0;
+				}
+				
+				var targetEl = this.childNodes[ targetIndex ];
+				if ( targetEl ) {
+				  this.insertBefore( el, targetEl ); 
+				}
+				else {
+				  this.appendChild( el );
+				}
+			  }
+			  
+			  return el;
+			}
+
+			Element.prototype.insertElement = function( elementName, attributeObj, index ) {
+				var el = this.insertElementNS( this.namespaceURI, elementName, attributeObj, index );     
+				return el;
+			}
+			
 			idstrip = 0;
 
 			// Point
@@ -312,21 +369,25 @@
 				this.graphic_node.bulle = this;
 				this.path.setAttribute("style", "fill: rgb(255, 255, 255); stroke: rgb(0, 0, 0); stroke-width: 3;");
 				this.edit_node = document.createElementNS(svgNS, "switch");
-				var foreign = document.createElement("foreignObject");// why this make a "foreignobject" instead of "foreignObject" ??
-				foreign.setAttribute('width',this.w);
-				foreign.setAttribute('height',this.h);
-				this.edit_node.appendChild(foreign);
-				var body = document.createElement("body");
-				body.setAttribute('xmlns',"http://www.w3.org/1999/xhtml");
-				foreign.appendChild(body);
-				var form = document.createElement("form");
-				body.appendChild(form);
-				var area = document.createElement("textarea");
+				//var foreign = document.createElementNS(svgNS,"foreignObject");// why this make a "foreignobject" instead of "foreignObject" ??
+				var foreign = this.edit_node.insertElement( "foreignObject", { x:8, width:this.w, height:this.h } );
+				//var p = fo.insertElementNS( xhtmlns, "p" );
+
+				//foreign.setAttribute('width',this.w);
+				//foreign.setAttribute('height',this.h);
+				//this.edit_node.appendChild(foreign);
+				//var body = document.createElement("body");
+				//body.setAttribute('xmlns',"http://www.w3.org/1999/xhtml");
+				//foreign.appendChild(body);
+				var form = foreign.insertElementNS( xhtmlns, "form" );
+				//var form = document.createElement("form");
+				//body.appendChild(form);
+				var area = form.insertElement("textarea");
 				area.setAttribute("style","background:none;border:1px dashed gray;width:"+(this.w-20)+"px;");
 				area.setAttribute("name","area");
-				area.setAttribute("onblur","javascript:alert('this');this.node.submitForm();");
-				area.node = this;// pourquoi ça ne permet pas de faire this.node dans le onblur?
-				form.appendChild(area);
+				area.setAttribute("onblur","javascript:this.node.submitForm();");
+				area.node = this;
+				//form.appendChild(area);
 				this.actuPath = function() {
 					this.path.setAttribute("d", new Curve([
 											PM((this.x+20),this.y),
@@ -348,14 +409,20 @@
 				}*/
 				this.editForm = function() {
 					this.graphic_node.setAttribute("onclick","");
+					this.edit_node.firstElementChild.firstElementChild.firstElementChild.textContent=this.texte;
+					this.edit_node.firstElementChild.firstElementChild.firstElementChild.style.height=this.h+"px";
 					this.edit_node.setAttribute('transform','translate('+this.x+','+this.y+')');
 					this.edit_node.childNodes[0].setAttribute('height',this.h);
 					this.noeud.replaceChild(this.edit_node,this.noeud.childNodes[1]);
+					this.edit_node.firstElementChild.firstElementChild.firstElementChild.focus();
 				}
 				this.submitForm = function() {
-				alert('submit');
-					this.texte = this.edit_node.childNodes[0].area.value;
-					this.refreshNoeud();
+				//alert('submit');
+					this.texte = this.edit_node.childNodes[0].firstElementChild.firstElementChild.value;
+					this.noeud.replaceChild(this.getNoeudTexte(),this.edit_node);
+					this.actuPath();
+					this.graphic_node.setAttribute("onclick","javascript:this.bulle.editForm();");
+					//this.refreshNoeud();
 				}
 				this.refreshNoeud = function() {
 					//this.noeud.appendChild(this.getNoeudTexte());
