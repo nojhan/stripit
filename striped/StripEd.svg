@@ -80,15 +80,17 @@
 						<div>
 							<form method="post" action="javascript:chargerURL(document.getElementById('url').value)">
 								<fieldset style="" id="upload">
-								<legend>Charger un strip</legend>
+									<legend>Charger un strip depuis une URL</legend>
 									<label for="url">Adresse du fichier : </label><input type="text" id="url" name="url" value="geekscottes_133.xml" size="50"/>
-									<input type="submit" value="Ouvrir"/>
+									<input type="submit" value="Charger" id="xml_url_validation"/>
 								</fieldset>
+							</form>
+							<form method="post" action="javascript:chargerXML(document.getElementById('xml_area').value)">
 								<fieldset>
-								<legend>Code XML</legend>
+									<legend>Charger un strip depuis du code XML</legend>
 									<label for="xml_area">nom</label>
 									<textarea id="xml_area" name="xml_area" rows="15" cols="130">code</textarea>
-									<input type="button" value="Envoyer"/>
+									<input type="button" value="Charger" id="xml_area_validation"/>
 								</fieldset>
 							</form>
 						</div>
@@ -103,8 +105,8 @@
 			const xlinkns = "http://www.w3.org/1999/xlink";
 			const xhtmlns = "http://www.w3.org/1999/xhtml";
 			var root = document.documentElement;
-			
-			
+
+
 			/* Extends Element functionality to add insertElement method */
 			Element.prototype.constructElementNS = function( namespace, elementName, attributeObj ) {
 			  var el = document.createElementNS( namespace, elementName );
@@ -123,12 +125,12 @@
 			}
 
 			Element.prototype.constructElement = function( elementName, attributeObj ) {
-			  var el = this.constructElementNS( this.namespaceURI, elementName, attributeObj );     
+			  var el = this.constructElementNS( this.namespaceURI, elementName, attributeObj );
 			  return el;
 			}
 
 			Element.prototype.insertElementNS = function( namespace, elementName, attributeObj, index ) {
-			  var el = this.constructElementNS( namespace, elementName, attributeObj );     
+			  var el = this.constructElementNS( namespace, elementName, attributeObj );
 
 			  // insert child at requested index, or as last child if index is too high or no index is specified
 			  if ( null == index ) {
@@ -139,24 +141,24 @@
 				if ( 0 == index ) {
 				  targetIndex = 0;
 				}
-				
+
 				var targetEl = this.childNodes[ targetIndex ];
 				if ( targetEl ) {
-				  this.insertBefore( el, targetEl ); 
+				  this.insertBefore( el, targetEl );
 				}
 				else {
 				  this.appendChild( el );
 				}
 			  }
-			  
+
 			  return el;
 			}
 
 			Element.prototype.insertElement = function( elementName, attributeObj, index ) {
-				var el = this.insertElementNS( this.namespaceURI, elementName, attributeObj, index );     
+				var el = this.insertElementNS( this.namespaceURI, elementName, attributeObj, index );
 				return el;
 			}
-			
+
 			idstrip = 0;
 
 			// Point
@@ -601,7 +603,15 @@
 
 			function chargerURL(url) {
 				alert("c'est parti...");
-				strip = parseStrip(url);
+				xml = getXmlFromURL(url);
+				strip = parseStrip(xml);
+				strip.draw();
+				alert("voilà");
+			}
+			function chargerXML(txt) {
+				alert("c'est parti (xml) ...");
+				xml = getXmlFromText(txt);
+				strip = parseStrip(xml);
 				strip.draw();
 				alert("voilà");
 			}
@@ -620,14 +630,20 @@
 			strip.supprimerCase(0);
 			strip.clear();
 			strip.draw();*/
-
-			function parseStrip(xmlFile) {
+			function getXmlFromURL(url) {
 				var xmlDoc;
 				xmlDoc=new window.XMLHttpRequest();
-				xmlDoc.open("GET",xmlFile,false);
+				xmlDoc.open("GET",url,false);
 				xmlDoc.send("");
-				for(i=0;xmlDoc.responseXML.childNodes[i].nodeType != 1;i++);
-				strip_node = xmlDoc.responseXML.childNodes[i];
+				return xmlDoc.responseXML;
+			}
+			function getXmlFromText(txt) {
+				var xmlDoc = new XML(txt);
+				return xmlDoc;
+			}
+			function parseStrip(xmlFile) {
+				for(i=0;xmlFile.childNodes[i].nodeType != 1;i++);
+				strip_node = xmlFile.childNodes[i];
 				//alert(strip_node.textContent);
 
 				strip = new Strip("strip",strip_node.getAttribute("x"),strip_node.getAttribute("y"),strip_node.getAttribute("height"),true);
