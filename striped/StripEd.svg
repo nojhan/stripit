@@ -90,7 +90,7 @@
 									<legend>Charger un strip depuis du code XML</legend>
 									<label for="xml_area">nom</label>
 									<textarea id="xml_area" name="xml_area" rows="15" cols="130">code</textarea>
-									<input type="button" value="Charger" id="xml_area_validation"/>
+									<input type="submit" value="Charger" id="xml_area_validation"/>
 								</fieldset>
 							</form>
 						</div>
@@ -638,7 +638,7 @@
 				return xmlDoc.responseXML;
 			}
 			function getXmlFromText(txt) {
-				var xmlDoc = new XML(txt);
+				var xmlDoc = new DOMParser().parseFromString(txt,"text/xml");
 				return xmlDoc;
 			}
 			function parseStrip(xmlFile) {
@@ -671,6 +671,7 @@
 						strip.ajouterCase(kase);
 					}
 				}
+				alert(new XMLSerializer().serializeToString(xmlFile));
 				return strip;
 			}
 
