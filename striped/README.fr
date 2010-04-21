@@ -13,7 +13,7 @@ Contact : mcmic@free.fr
 
 1. Utilisation
 
-Charger dans son navigateur GeekscottesMakerV2.svg
+Charger dans son navigateur StripEd.svg
 Lui indiquer un fichier xml à charger et voir le résultat.
 
 2. Format XML
@@ -26,4 +26,4 @@ Le fichier strip.xml contient un exemple simple et le fichier geekscottes_133.xm
 
 Striped est entièrement réalisé en SVG/javascript.
 Le strip est geré grâce à un arbre de classes en javascript orienté objet.
-Les releases seront conformes aux normes W3C, mais pour l'instant je me contente de le faire marcher sur Firefox 3.5
+Les releases seront conformes aux normes W3C, mais pour l'instant je me contente de le faire marcher sur Firefox 3.6

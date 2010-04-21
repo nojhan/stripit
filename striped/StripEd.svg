@@ -600,7 +600,6 @@
 				}
 			}
 
-
 			function chargerURL(url) {
 				alert("c'est parti...");
 				xml = getXmlFromURL(url);
@@ -674,9 +673,6 @@
 				alert(new XMLSerializer().serializeToString(xmlFile));
 				return strip;
 			}
-
-			//strip = parseStrip("geekscottes_133.xml");
-			//strip.draw();
 
 			//TODO
 			//ajouter des appels de fonctions permettant de modifier le strip actif (texte des bulles, positions, ...)
